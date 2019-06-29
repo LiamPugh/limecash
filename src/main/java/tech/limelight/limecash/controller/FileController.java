@@ -4,13 +4,13 @@ package tech.limelight.limecash.controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import tech.limelight.limecash.repository.AccountRepository;
-import tech.limelight.limecash.repository.BucketRepository;
-import tech.limelight.limecash.repository.BudgetRepository;
-import tech.limelight.limecash.repository.TransactionRepository;
-import tech.limelight.limecash.util.DatabaseSaver;
+import tech.limelight.limecash.repository.*;
+import tech.limelight.limecash.util.FileDatabaseLoader;
+import tech.limelight.limecash.util.FileDatabaseSaver;
 
 import static tech.limelight.limecash.util.Constants.*;
+import static tech.limelight.limecash.util.CryptoUtils.deleteFiles;
+import static tech.limelight.limecash.util.CryptoUtils.encryptDecryptFiles;
 
 @RestController
 public class FileController {
@@ -19,34 +19,41 @@ public class FileController {
     private final BucketRepository bucketRepository;
     private final BudgetRepository budgetRepository;
     private final TransactionRepository transactionRepository;
+    private final UserRepository userRepository;
 
 
-    public FileController(AccountRepository accountRepository, BucketRepository bucketRepository, BudgetRepository budgetRepository, TransactionRepository transactionRepository) {
+    public FileController(AccountRepository accountRepository, BucketRepository bucketRepository, BudgetRepository budgetRepository, TransactionRepository transactionRepository, UserRepository userRepository) {
         this.accountRepository = accountRepository;
         this.bucketRepository = bucketRepository;
         this.budgetRepository = budgetRepository;
         this.transactionRepository = transactionRepository;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/fileController/save")
     public void save(){
-        DatabaseSaver databaseSaver = new DatabaseSaver();
-        databaseSaver.pushObjectToFile(accountRepository,ACCOUNTS_FILENAME);
-        databaseSaver.pushObjectToFile(bucketRepository,BUCKETS_FILENAME);
-        databaseSaver.pushObjectToFile(budgetRepository,BUDGETS_FILENAME);
-        databaseSaver.pushObjectToFile(transactionRepository,TRANSACTIONS_FILENAME);
+        FileDatabaseSaver fileDatabaseSaver = new FileDatabaseSaver();
+        encryptDecryptFiles(false, ENCRYPTED_FILENAMES,UNENCRYPTED_FILENAMES, FileDatabaseLoader.passwd);
+        fileDatabaseSaver.pushObjectToFile(accountRepository,ACCOUNTS_FILENAME);
+        fileDatabaseSaver.pushObjectToFile(bucketRepository,BUCKETS_FILENAME);
+        fileDatabaseSaver.pushObjectToFile(budgetRepository,BUDGETS_FILENAME);
+        fileDatabaseSaver.pushObjectToFile(transactionRepository,TRANSACTIONS_FILENAME);
+        fileDatabaseSaver.pushObjectToFile(transactionRepository,TRANSACTIONS_FILENAME);
+        fileDatabaseSaver.pushObjectToFile(userRepository,USERS_FILENAME);
+        encryptDecryptFiles(true, ENCRYPTED_FILENAMES,UNENCRYPTED_FILENAMES, FileDatabaseLoader.passwd);
+        deleteFiles(UNENCRYPTED_FILENAMES);
     }
 
     @GetMapping("/fileController/saveAccounts")
     public void saveAccounts(){
-        DatabaseSaver databaseSaver = new DatabaseSaver();
-        databaseSaver.pushObjectToFile(accountRepository,ACCOUNTS_FILENAME);
+        FileDatabaseSaver fileDatabaseSaver = new FileDatabaseSaver();
+        fileDatabaseSaver.pushObjectToFile(accountRepository,ACCOUNTS_FILENAME);
     }
 
     @GetMapping("/fileController/saveAccounts/{filename}")
     public void saveAccounts(@PathVariable String filename){
-        DatabaseSaver databaseSaver = new DatabaseSaver();
-        databaseSaver.pushObjectToFile(accountRepository,filename);
+        FileDatabaseSaver fileDatabaseSaver = new FileDatabaseSaver();
+        fileDatabaseSaver.pushObjectToFile(accountRepository,filename);
     }
 
 }

@@ -3,6 +3,7 @@ package tech.limelight.limecash.model;
 
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,34 +13,41 @@ import javax.persistence.Id;
 public class Budget {
 
     private @Id @GeneratedValue Long id;
-    private String[] area;
-    private Double[] areaAllowance;
+
+    @Column(length=100000000)
+    private String[][] area;
+    @Column(length=100000000)
+    private Double[][] areaAllowance;
+    @Column(length=100000000)
     private Double[][] monthlySpend;
+    @Column(length=100000000)
     private Double[][] remaining;
+    private String owner;
 
     public Budget() {
     }
 
-    public Budget(String[] area, Double[] areaAllowance, Double[][] monthlySpend, Double[][] remaining) {
+    public Budget(String[][] area, Double[][] areaAllowance, Double[][] monthlySpend, Double[][] remaining, String owner) {
         this.area = area;
         this.areaAllowance = areaAllowance;
         this.monthlySpend = monthlySpend;
         this.remaining = remaining;
+        this.owner = owner;
     }
 
-    public String[] getArea() {
+    public String[][] getArea() {
         return area;
     }
 
-    public void setArea(String[] area) {
+    public void setArea(String[][] area) {
         this.area = area;
     }
 
-    public Double[] getAreaAllowance() {
+    public Double[][] getAreaAllowance() {
         return areaAllowance;
     }
 
-    public void setAreaAllowance(Double[] areaAllowance) {
+    public void setAreaAllowance(Double[][] areaAllowance) {
         this.areaAllowance = areaAllowance;
     }
 
@@ -65,5 +73,13 @@ public class Budget {
 
     public void setRemaining(Double[][] remaining) {
         this.remaining = remaining;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 }

@@ -21,11 +21,12 @@ public class Account {
     private Double interestMaximumBalance;
     private Double depositLimit;
     private Double withdrawalLimit;
+    private String owner;
 
     public Account() {
     }
 
-    public Account(String name, String provider, Double minimumBalance, Double maximumBalance, Double overdraftAmount, Double interestRate, Double interestMinimumBalance, Double interestMaximumBalance, Double depositLimit, Double withdrawalLimit) {
+    public Account(String name, String provider, Double minimumBalance, Double maximumBalance, Double overdraftAmount, Double interestRate, Double interestMinimumBalance, Double interestMaximumBalance, Double depositLimit, Double withdrawalLimit, String owner) {
         this.name = name;
         this.provider = provider;
         this.minimumBalance = minimumBalance;
@@ -108,5 +109,29 @@ public class Account {
 
     public void setInterestMaximumBalance(Double interestMaximumBalance) {
         this.interestMaximumBalance = interestMaximumBalance;
+    }
+
+    public Double getDepositLimit() {
+        return depositLimit;
+    }
+
+    public void setDepositLimit(Double depositLimit) {
+        this.depositLimit = depositLimit;
+    }
+
+    public Double getWithdrawalLimit() {
+        return withdrawalLimit;
+    }
+
+    public void setWithdrawalLimit(Double withdrawalLimit) {
+        this.withdrawalLimit = withdrawalLimit;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 }

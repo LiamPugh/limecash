@@ -1,28 +1,24 @@
 package tech.limelight.limecash.model;
 
-
-import lombok.Data;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Data
 @Entity
-public class Bucket {
+public class Role {
 
-    private @Id @GeneratedValue Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String name;
-    private Double value;
     private String owner;
 
-    public Bucket() {
+    public Role() {
     }
 
-    public Bucket(String name, Double value, String owner) {
+    public Role(String name) {
         this.name = name;
-        this.value = value;
-        this.owner = owner;
     }
 
     public Long getId() {
@@ -41,12 +37,12 @@ public class Bucket {
         this.name = name;
     }
 
-    public Double getValue() {
-        return value;
-    }
-
-    public void setValue(Double value) {
-        this.value = value;
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 
     public String getOwner() {
