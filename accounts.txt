@@ -1,0 +1,1 @@
+[{"Account"=(id=1, name=Current Account, provider=Santander, minimumBalance=1.0, maximumBalance=999999.99, overdraftAmount=1500.0, interestRate=3.0, interestMinimumBalance=300.0, interestMaximumBalance=2000.0)}]

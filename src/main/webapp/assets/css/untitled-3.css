@@ -1,0 +1,18 @@
+.table-responsive {
+}
+
+.table thead th {
+  color: rgb(255,255,255);
+}
+
+.table td, .table th {
+  color: rgb(255,255,255);
+}
+
+tr {
+  color: rgba(0,128,255,0);
+}
+
+.table-borderless tbody + tbody, .table-borderless td, .table-borderless th, .table-borderless thead th {
+}
+

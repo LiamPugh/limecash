@@ -1,0 +1,4 @@
+Find and replace on month:
+
+<a href="#"><i class="fa fa-sign-out"
+<a href="/logout"><i class="fa fa-sign-out"
