@@ -13,6 +13,7 @@ public class Account {
     private @Id @GeneratedValue Long id;
     private String name;
     private String provider;
+    private Double holding;
     private Double minimumBalance;
     private Double maximumBalance;
     private Double overdraftAmount;
@@ -26,9 +27,10 @@ public class Account {
     public Account() {
     }
 
-    public Account(String name, String provider, Double minimumBalance, Double maximumBalance, Double overdraftAmount, Double interestRate, Double interestMinimumBalance, Double interestMaximumBalance, Double depositLimit, Double withdrawalLimit, String owner) {
+    public Account(String name, String provider, Double holding, Double minimumBalance, Double maximumBalance, Double overdraftAmount, Double interestRate, Double interestMinimumBalance, Double interestMaximumBalance, Double depositLimit, Double withdrawalLimit, String owner) {
         this.name = name;
         this.provider = provider;
+        this.holding = holding;
         this.minimumBalance = minimumBalance;
         this.maximumBalance = maximumBalance;
         this.overdraftAmount = overdraftAmount;
@@ -37,6 +39,7 @@ public class Account {
         this.interestMaximumBalance = interestMaximumBalance;
         this.depositLimit = depositLimit;
         this.withdrawalLimit = withdrawalLimit;
+        this.owner = owner;
     }
 
     public Long getId() {
@@ -133,5 +136,13 @@ public class Account {
 
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+
+    public Double getHolding() {
+        return holding;
+    }
+
+    public void setHolding(Double holding) {
+        this.holding = holding;
     }
 }

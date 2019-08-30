@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="limecashBudgets">
 
 <head>
     <meta charset="utf-8">
@@ -17,70 +17,98 @@
     <link rel="stylesheet" href="assets/css/untitled-2.css">
     <link rel="stylesheet" href="assets/css/untitled-3.css">
     <link rel="stylesheet" href="assets/css/untitled.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="assets/angular/angularBudgetSheet.js"></script>
 </head>
 
 <body style="background-color: rgb(33,33,33);color: rgb(255,255,255);">
-    <nav class="navbar navbar-light navbar-expand-md" style="background-color: #000000;">
-        <div class="container-fluid"><a class="navbar-brand" href="index.html" style="color: rgba(255,255,255,0.9);">Home</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div
+<nav class="navbar navbar-light navbar-expand-md" style="background-color: #000000;">
+    <div class="container-fluid"><a class="navbar-brand" href="index.html"
+                                    style="color: rgba(255,255,255,0.9);">Home</a>
+        <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
+                class="navbar-toggler-icon"></span></button>
+        <div
                 class="collapse navbar-collapse text-left" id="navcol-1">
-                <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item" role="presentation"><a class="nav-link active text-left" href="budgetSheet.html" style="color: rgba(255,255,255,0.9);">Budget Sheet</a></li>
-                </ul>
-                <li class="dropdown" style="color: rgb(0,0,0);"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#" style="color: rgba(255,255,255,0.57);margin: 26px;">Month</a>
-                    <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="month/Jun.html">June</a><a class="dropdown-item" role="presentation" href="month/Jul.html">July</a><a class="dropdown-item" role="presentation" href="month/Aug.html">August</a><a class="dropdown-item"
-                            role="presentation" href="month/Sep.html">September</a><a class="dropdown-item" role="presentation" href="month/Oct.html">October</a><a class="dropdown-item" role="presentation" href="month/Nov.html">November</a><a class="dropdown-item"
-                            role="presentation" href="month/Dec.html">December</a><a class="dropdown-item" role="presentation" href="month/Jan.html">January</a><a class="dropdown-item" role="presentation" href="month/Feb.html">February</a><a class="dropdown-item"
-                            role="presentation" href="month/Mar.html">March</a><a class="dropdown-item" role="presentation" href="month/Apr.html">April</a><a class="dropdown-item" role="presentation" href="month/May.html">May</a></div>
-                </li>
-        </div><a href="#"><i class="fa fa-cog" style="font-size: 32px;margin: 8px;color: rgb(255,255,255);"></i></a><a href="/logout"><i class="fa fa-sign-out" style="font-size: 32px;margin: 8px;color: rgb(255,255,255);"></i></a></div>
-    </nav>
-    <hr style="background-color: #0019ff;margin: 0px;height: 2px;">
-    <hr>
-    <div class="table-responsive table-borderless text-center" style="color: rgba(255,255,255,0);font-size: 16px;background-color: rgba(255,255,255,0);margin: 0px;padding: 0px;">
-        <table class="table table-bordered table-sm">
-            <thead>
-                <tr></tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="text-center" rowspan="2" colspan="1"><br>Budget<br><br></td>
-                    <td rowspan="1" colspan="12">Month</td>
-                </tr>
-                <tr>
-                    <td>Jun</td>
-                    <td>Jul</td>
-                    <td>Aug</td>
-                    <td>Sep</td>
-                    <td>Oct</td>
-                    <td>Nov</td>
-                    <td>Dec</td>
-                    <td>Jan</td>
-                    <td>Feb</td>
-                    <td>Mar</td>
-                    <td>Apr</td>
-                    <td>May</td>
-                </tr>
-                <tr>
-                    <td>Area1</td>
-                    <td>Jun1</td>
-                    <td>Jul1</td>
-                    <td>Aug1</td>
-                    <td>Sep1</td>
-                    <td>Oct1</td>
-                    <td>Nov1</td>
-                    <td>Dec1</td>
-                    <td>Jan1</td>
-                    <td>Feb1</td>
-                    <td>Mar1</td>
-                    <td>Apr1</td>
-                    <td>May1</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+            <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item" role="presentation"><a class="nav-link active text-left" href="budgetSheet.html"
+                                                            style="color: rgba(255,255,255,0.9);">Budget Sheet</a></li>
+            </ul>
+            <li class="dropdown" style="color: rgb(0,0,0);"><a class="dropdown-toggle" data-toggle="dropdown"
+                                                               aria-expanded="false" href="#"
+                                                               style="color: rgba(255,255,255,0.57);margin: 26px;">Month</a>
+                <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation"
+                                                          href="month/Jun.html">June</a><a class="dropdown-item"
+                                                                                           role="presentation"
+                                                                                           href="month/Jul.html">July</a><a
+                        class="dropdown-item" role="presentation" href="month/Aug.html">August</a><a
+                        class="dropdown-item"
+                        role="presentation" href="month/Sep.html">September</a><a class="dropdown-item"
+                                                                                  role="presentation"
+                                                                                  href="month/Oct.html">October</a><a
+                        class="dropdown-item" role="presentation" href="month/Nov.html">November</a><a
+                        class="dropdown-item"
+                        role="presentation" href="month/Dec.html">December</a><a class="dropdown-item"
+                                                                                 role="presentation"
+                                                                                 href="month/Jan.html">January</a><a
+                        class="dropdown-item" role="presentation" href="month/Feb.html">February</a><a
+                        class="dropdown-item"
+                        role="presentation" href="month/Mar.html">March</a><a class="dropdown-item" role="presentation"
+                                                                              href="month/Apr.html">April</a><a
+                        class="dropdown-item" role="presentation" href="month/May.html">May</a></div>
+            </li>
+        </div>
+        <a href="#"><i class="fa fa-cog" style="font-size: 32px;margin: 8px;color: rgb(255,255,255);"></i></a><a
+                href="/logout"><i class="fa fa-sign-out"
+                                  style="font-size: 32px;margin: 8px;color: rgb(255,255,255);"></i></a></div>
+</nav>
+<hr style="background-color: #0019ff;margin: 0px;height: 2px;">
+<hr>
+<div class="table-responsive table-borderless text-center" style="color: rgba(255,255,255,0);font-size: 16px;background-color: rgba(255,255,255,0);margin: 0px;padding: 0px;" ng-controller="budgetTable">
+    <button class="btn btn-primary" ng-click="saveBudgets()" type="button" style="background-color: rgb(76,200,0);">
+        Save Changes
+    </button>
+    <table class="table table-bordered table-sm">
+        <thead>
+        <tr>
+            <th class="text-center">Budget</th>
+            <th class="text-center" colspan="12">Month</th>
+        </tr>
+        <tr>
+            <th class="text-center"></th>
+            <th class="text-center">Jun</th>
+            <th class="text-center">Jul</th>
+            <th class="text-center">Aug</th>
+            <th class="text-center">Sep</th>
+            <th class="text-center">Oct</th>
+            <th class="text-center">Nov</th>
+            <th class="text-center">Dec</th>
+            <th class="text-center">Jan</th>
+            <th class="text-center">Feb</th>
+            <th class="text-center">Mar</th>
+            <th class="text-center">Apr</th>
+            <th class="text-center">May</th>
+        </tr>
+        </thead>
+        <tr ng-repeat="budget in budgets">
+            <td><span contenteditable="false">{{budget.budgetName}}</span></td>
+            <td><span contenteditable="true" ng-keyup="updateBudgetValue(budget.budgetName,0,$event)">{{budget.months[0]}}</span></td>
+            <td><span contenteditable="true" ng-keyup="updateBudgetValue(budget.budgetName,1,$event)">{{budget.months[1]}}</span></td>
+            <td><span contenteditable="true" ng-keyup="updateBudgetValue(budget.budgetName,2,$event)">{{budget.months[2]}}</span></td>
+            <td><span contenteditable="true" ng-keyup="updateBudgetValue(budget.budgetName,3,$event)">{{budget.months[3]}}</span></td>
+            <td><span contenteditable="true" ng-keyup="updateBudgetValue(budget.budgetName,4,$event)">{{budget.months[4]}}</span></td>
+            <td><span contenteditable="true" ng-keyup="updateBudgetValue(budget.budgetName,5,$event)">{{budget.months[5]}}</span></td>
+            <td><span contenteditable="true" ng-keyup="updateBudgetValue(budget.budgetName,6,$event)">{{budget.months[6]}}</span></td>
+            <td><span contenteditable="true" ng-keyup="updateBudgetValue(budget.budgetName,7,$event)">{{budget.months[7]}}</span></td>
+            <td><span contenteditable="true" ng-keyup="updateBudgetValue(budget.budgetName,8,$event)">{{budget.months[8]}}</span></td>
+            <td><span contenteditable="true" ng-keyup="updateBudgetValue(budget.budgetName,9,$event)">{{budget.months[9]}}</span></td>
+            <td><span contenteditable="true" ng-keyup="updateBudgetValue(budget.budgetName,10,$event)">{{budget.months[10]}}</span></td>
+            <td><span contenteditable="true" ng-keyup="updateBudgetValue(budget.budgetName,11,$event)">{{budget.months[11]}}</span></td>
+        </tr>
+    </table>
+
+</div>
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
 </body>
 
 </html>

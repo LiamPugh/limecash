@@ -8,6 +8,14 @@
         <version>2.1.6.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+    <distributionManagement>
+        <repository>
+            <id>internal.repo</id>
+            <name>Internal repo</name>
+            <url>file:///C:/limecash.jar</url>
+        </repository>
+    </distributionManagement>
+    <packaging>jar</packaging>
     <groupId>tech.limelight</groupId>
     <artifactId>limecash</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -70,6 +78,12 @@
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
             <version>1.9.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <version>1.5.8.RELEASE</version>
         </dependency>
 
         <dependency>

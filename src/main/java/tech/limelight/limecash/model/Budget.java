@@ -15,7 +15,7 @@ public class Budget {
     private @Id @GeneratedValue Long id;
 
     @Column(length=100000000)
-    private String[][] area;
+    private String[][] areas;
     @Column(length=100000000)
     private Double[][] areaAllowance;
     @Column(length=100000000)
@@ -27,20 +27,20 @@ public class Budget {
     public Budget() {
     }
 
-    public Budget(String[][] area, Double[][] areaAllowance, Double[][] monthlySpend, Double[][] remaining, String owner) {
-        this.area = area;
+    public Budget(String[][] areas, Double[][] areaAllowance, Double[][] monthlySpend, Double[][] remaining, String owner) {
+        this.areas = areas;
         this.areaAllowance = areaAllowance;
         this.monthlySpend = monthlySpend;
         this.remaining = remaining;
         this.owner = owner;
     }
 
-    public String[][] getArea() {
-        return area;
+    public String[][] getAreas() {
+        return areas;
     }
 
-    public void setArea(String[][] area) {
-        this.area = area;
+    public void setAreas(String[][] areas) {
+        this.areas = areas;
     }
 
     public Double[][] getAreaAllowance() {
@@ -82,4 +82,9 @@ public class Budget {
     public void setOwner(String owner) {
         this.owner = owner;
     }
+
+    public void setValue(int a, int b, Double value){
+        this.areaAllowance[b][a] = value;
+    }
+
 }

@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import tech.limelight.limecash.controller.FileController;
 import tech.limelight.limecash.model.*;
 import tech.limelight.limecash.repository.*;
 
@@ -27,19 +28,24 @@ public class FileDatabaseLoader {
     public static String passwd;
 
     @Bean
-    CommandLineRunner initDatabase(AccountRepository accountRepository, BucketRepository bucketRepository, BudgetRepository budgetRepository, TransactionRepository transactionRepository, UserRepository userRepository) {
+    CommandLineRunner initDatabase(AccountRepository accountRepository, BucketRepository bucketRepository, BudgetRepository budgetRepository, TransactionRepository transactionRepository, UserRepository userRepository, InOutBreakdownRepository breakdownRepository, IncomeRepository incomeRepository) {
         return args -> {
             Scanner scanner = new Scanner(System.in);
+            System.out.print("Enter Username: ");
+            String user = "liampugh@limelight.tech";//scanner.nextLine();
             System.out.print("Enter File Encryption Password: ");
-            FileDatabaseLoader.passwd = scanner.nextLine();
-            encryptDecryptFiles(false, ENCRYPTED_FILENAMES,UNENCRYPTED_FILENAMES, passwd);
+            FileDatabaseLoader.passwd = "SpringPassword01";//scanner.nextLine();
+            //encryptDecryptFiles(false, ENCRYPTED_FILENAMES,UNENCRYPTED_FILENAMES, passwd);
+            log.info("Loading transactions: " + getTransactionsFromFile(transactionRepository));
             log.info("Loading accounts: " + getAccountsFromFile(accountRepository));
             log.info("Loading budgets: " + getBudgetsFromFile(budgetRepository));
-            log.info("Loading transactions: " + getTransactionsFromFile(transactionRepository));
             log.info("Loading buckets: " + getBucketsFromFile(bucketRepository));
             log.info("Loading users: " + getUserFromFile(userRepository));
-            encryptDecryptFiles(true,ENCRYPTED_FILENAMES,UNENCRYPTED_FILENAMES,passwd);
-            deleteFiles(UNENCRYPTED_FILENAMES);
+            //log.info("Loading breakdown: " + getBreakdownFromFile(breakdownRepository));
+            log.info("Loading incomes: " + getIncomesFromFile(incomeRepository));
+            log.info("Generating breakdowns: " + generateBreakdowns(incomeRepository,transactionRepository,budgetRepository,breakdownRepository,user));
+            //encryptDecryptFiles(true,ENCRYPTED_FILENAMES,UNENCRYPTED_FILENAMES,passwd);
+            //deleteFiles(UNENCRYPTED_FILENAMES);
         };
     }
 
@@ -91,6 +97,32 @@ public class FileDatabaseLoader {
         } catch (IOException e) {
             return "FAILED";
         }
+    }
+
+    private String getBreakdownFromFile(InOutBreakdownRepository breakdownRepository) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            breakdownRepository.saveAll(Arrays.asList(mapper.readValue(new File(BREAKDOWN_FILENAME), InOutBreakdown[].class)));
+            return "Done";
+        } catch (IOException e) {
+            return "FAILED";
+        }
+    }
+
+    private String getIncomesFromFile(IncomeRepository incomeRepository) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            incomeRepository.saveAll(Arrays.asList(mapper.readValue(new File(INCOMES_FILENAME), Income[].class)));
+            return "Done";
+        } catch (IOException e) {
+            return "FAILED";
+        }
+    }
+
+    private String generateBreakdowns(IncomeRepository incomeRepository, TransactionRepository transactionRepository, BudgetRepository budgetRepository, InOutBreakdownRepository breakdownRepository, String user){
+        InOutBreakdown inOutBreakdown = InOutBreakdown.loadInOutBreakdownFromBudgetSheets(incomeRepository,budgetRepository,transactionRepository,user);
+        breakdownRepository.save(inOutBreakdown);
+        return "Done";
     }
 
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="limecashIndex">
 
 <head>
     <meta charset="utf-8">
@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="assets/css/untitled-2.css">
     <link rel="stylesheet" href="assets/css/untitled-3.css">
     <link rel="stylesheet" href="assets/css/untitled.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="assets/angular/angularIndex.js"></script>
 </head>
 
 <body style="background-color: rgb(33,33,33);color: rgb(255,255,255);">
@@ -37,7 +39,7 @@
     </nav>
     <hr style="background-color: #0019ff;margin: 0px;height: 2px;">
     <hr>
-    <div class="table-responsive table-borderless text-center" style="color: rgba(255,255,255,0);font-size: 16px;background-color: rgba(255,255,255,0);margin: 0px;padding: 0px;">
+    <div class="table-responsive table-borderless text-center" style="color: rgba(255,255,255,0);font-size: 16px;background-color: rgba(255,255,255,0);margin: 0px;padding: 0px;" ng-controller="indexTable">
         <table class="table table-bordered table-sm">
             <thead>
                 <tr>
@@ -50,27 +52,27 @@
                                 <tbody>
                                     <tr style="color: rgba(0,128,255,0);">
                                         <th class="text-right">Starting Total</th>
-                                        <th class="text-center">69</th>
+                                        <th class="text-center">£{{startingTotal}}</th>
                                     </tr>
                                     <tr>
                                         <th class="text-right">Finishing Total</th>
-                                        <th class="text-center">Cell 4</th>
+                                        <th class="text-center">£{{finishingTotal}}</th>
                                     </tr>
                                     <tr>
                                         <th class="text-right">Lowest Point</th>
-                                        <th class="text-center">Cell 4</th>
+                                        <th class="text-center">£{{lowestPoint}}</th>
                                     </tr>
                                     <tr>
                                         <th class="text-right">Total Income</th>
-                                        <th class="text-center">Cell 4</th>
+                                        <th class="text-center">£{{totalIncome}}</th>
                                     </tr>
                                     <tr>
                                         <th class="text-right">Total Costs</th>
-                                        <th class="text-center">Cell 4</th>
+                                        <th class="text-center">£{{totalCost}}</th>
                                     </tr>
                                     <tr>
                                         <th class="text-right">Month Cost</th>
-                                        <th class="text-center">Cell 4</th>
+                                        <th class="text-center">£{{monthlyCost}}</th>
                                     </tr>
                                 </tbody>
                             </table>
@@ -84,28 +86,15 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th class="text-right">Bucket</th>
-                                        <th class="text-left">Current Value</th>
+                                        <th class="text-center" colspan="2">Buckets</th>
                                     </tr>
-                                    <tr>
-                                        <th class="text-right">Bills</th>
-                                        <th class="text-left">Cell 4</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-right">Spendable</th>
-                                        <th class="text-left">Cell 4</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-right">House/LTS</th>
-                                        <th class="text-left">Cell 4</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-right">Unassigned</th>
-                                        <th class="text-left">Cell 4</th>
+                                    <tr ng-repeat="bucket in buckets">
+                                        <th class="text-right">{{bucket.name}}</th>
+                                        <th class="text-left">£{{bucket.value}}</th>
                                     </tr>
                                     <tr>
                                         <th class="text-right">Total:</th>
-                                        <th class="text-left">Cell 4</th>
+                                        <th class="text-left">£{{totalBucket}}</th>
                                     </tr>
                                 </tbody>
                             </table>
@@ -119,28 +108,15 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th class="text-right">Accounts</th>
-                                        <th class="text-left">Current Value</th>
+                                        <th class="text-center" colspan="2">Accounts</th>
                                     </tr>
-                                    <tr>
-                                        <th class="text-right">Current</th>
-                                        <th class="text-left">Cell 4</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-right">Savings</th>
-                                        <th class="text-left">Cell 4</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-right">Coventry</th>
-                                        <th class="text-left">Cell 4</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-right">LISA</th>
-                                        <th class="text-left">Cell 4</th>
+                                    <tr ng-repeat="account in accounts">
+                                        <th class="text-right">{{account.name}}</th>
+                                        <th class="text-left">£{{account.holding}}</th>
                                     </tr>
                                     <tr>
                                         <th class="text-right">TOTAL:</th>
-                                        <th class="text-left">Cell 4</th>
+                                        <th class="text-left">£{{totalAccounts}}</th>
                                     </tr>
                                 </tbody>
                             </table>
@@ -152,6 +128,9 @@
                 <tr></tr>
             </tbody>
         </table>
+        <a href="/AddTrans.html">
+        <button class="btn btn-primary" type="button" style="background-color: rgb(0,162,45);height: 80px;width: 150px;font-size: 19px;">Add Transaction</button>
+        </a>
     </div><img src="assets/img/lineGraph.png" style="width: 99vw;padding: 50px;height: 50vh;">
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
