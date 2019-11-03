@@ -6,16 +6,20 @@ app.controller('monthController', function($scope, $http) {
             return decodeURIComponent(name[1]);
     }
 
-    $http.get("/getAllBuckets")
+    $scope.month = get('month');
+
+    $http.get("/getMonthsBudgets/" + $scope.month)
         .then(function (response) {
-            $scope.month = get('month');
+            $scope.monthBudget = response.data;
+            console.log($scope.monthBudget);
         });
 
-    $scope.name = "";
-    $scope.date = "";
-    $scope.value = "";
-    $scope.quantity = "";
-    $scope.incoming = "";
-    $scope.complete = "";
-    $scope.accountImpacted = "";
+    $scope.range = function(min, max, step) {
+        step = step || 1;
+        var input = [];
+        for (var i = min; i <= max; i += step) {
+            input.push(i);
+        }
+        return input;
+    };
 });

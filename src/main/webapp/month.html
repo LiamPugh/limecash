@@ -24,6 +24,7 @@
             });
         });
     });
+
 </script>
 <div id="header"></div>
 <div class="table-responsive table-borderless text-center"
@@ -48,11 +49,11 @@
                             <th class="text-center">Expenditure</th>
                             <th class="text-center">Remaining</th>
                         </tr>
-                        <tr style="color: rgba(0,128,255,0);">
-                            <th class="text-center">Areas1</th>
-                            <th class="text-center">Budget1</th>
-                            <th class="text-center">Expenditure1</th>
-                            <th class="text-center">Remaining1</th>
+                        <tr style="color: rgba(0,128,255,0);" ng-repeat="i in range(0,monthBudget.areas.length)">
+                            <th class="text-center">{{monthBudget.areas[i]}}</th>
+                            <th class="text-center">{{monthBudget.areaAllowance[i]}}</th>
+                            <th class="text-center">{{monthBudget.monthlySpend[i]}}</th>
+                            <th class="text-center">{{monthBudget.remaining[i]}}</th>
                         </tr>
                         </tbody>
                     </table>

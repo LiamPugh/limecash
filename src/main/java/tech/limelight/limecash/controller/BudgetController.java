@@ -1,12 +1,10 @@
 package tech.limelight.limecash.controller;
 
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tech.limelight.limecash.model.Budget;
 import tech.limelight.limecash.model.BudgetTableRowModel;
+import tech.limelight.limecash.model.MonthBudget;
 import tech.limelight.limecash.repository.BudgetRepository;
 import tech.limelight.limecash.service.RepoModifier;
 
@@ -55,9 +53,22 @@ public class BudgetController {
         repoModifier.updateBudgetFromTable(table);
     }
 
-    @GetMapping("/getMonthsBudgets")
-    public List<BudgetTableRowModel> getMonthsBudgets(String month){
-        List<BudgetTableRowModel> budgets = getAllBudgetRows();
-        return null;
+    @GetMapping("/getMonthsBudgets/{month}")
+    public MonthBudget getMonthsBudgets(@PathVariable String month){
+        Budget budget = budgetRepository.findAll().get(0);
+        String[] months = {"January","February","March","April","May","June","July","August","September","October","November","December"};
+        MonthBudget monthBudget = new MonthBudget();
+        int monthNum = 0;
+        for(int i = 0; i < month.length(); i++){
+            if(months[i].equals(month)) {
+                monthNum = i;
+                break;
+            }
+        }
+        monthBudget.setAreas(budget.getAreas()[monthNum]);
+        monthBudget.setAreaAllowance(budget.getAreaAllowance()[monthNum]);
+        monthBudget.setMonthlySpend(budget.getMonthlySpend()[monthNum]);
+        monthBudget.setRemaining(budget.getRemaining()[monthNum]);
+        return monthBudget;
     }
 }
