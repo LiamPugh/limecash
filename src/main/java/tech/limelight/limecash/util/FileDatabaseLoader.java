@@ -3,6 +3,8 @@ package tech.limelight.limecash.util;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +28,8 @@ import static tech.limelight.limecash.util.CryptoUtils.encryptDecryptFiles;
 public class FileDatabaseLoader {
 
     public static String passwd;
+
+    private Logger log = LoggerFactory.getLogger(FileDatabaseLoader.class);
 
     @Bean
     CommandLineRunner initDatabase(AccountRepository accountRepository, BucketRepository bucketRepository, BudgetRepository budgetRepository, TransactionRepository transactionRepository, UserRepository userRepository, InOutBreakdownRepository breakdownRepository, IncomeRepository incomeRepository) {

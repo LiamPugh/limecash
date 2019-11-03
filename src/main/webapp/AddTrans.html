@@ -18,50 +18,22 @@
     <link rel="stylesheet" href="assets/css/untitled-3.css">
     <link rel="stylesheet" href="assets/css/untitled.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="assets/js/moments.js"></script>
     <script src="assets/angular/transForm.js"></script>
 </head>
 
-<body style="background-color: rgb(255,255,255);color: rgb(255,255,255);">
-<nav class="navbar navbar-light navbar-expand-md" style="background-color: #7e7e7e;">
-    <div class="container-fluid"><a class="navbar-brand" href="index.html"
-                                    style="color: rgba(255,255,255,0.9);">Home</a>
-        <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
-                class="navbar-toggler-icon"></span></button>
-        <div
-                class="collapse navbar-collapse text-left" id="navcol-1">
-            <ul class="nav navbar-nav ml-auto">
-                <li class="nav-item" role="presentation"><a class="nav-link active text-left" href="budgetSheet.html"
-                                                            style="color: rgba(255,255,255,0.9);">Budget Sheet</a></li>
-            </ul>
-        </div>
-        <li class="dropdown" style="color: rgb(0,0,0);"><a class="dropdown-toggle" data-toggle="dropdown"
-                                                           aria-expanded="false" href="#"
-                                                           style="color: rgba(255,255,255,0.57);margin: 26px;">Month</a>
-            <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="month/Jun.html">June</a><a
-                    class="dropdown-item" role="presentation" href="month/Jul.html">July</a><a class="dropdown-item"
-                                                                                               role="presentation"
-                                                                                               href="month/Aug.html">August</a><a
-                    class="dropdown-item"
-                    role="presentation" href="month/Sep.html">September</a><a class="dropdown-item" role="presentation"
-                                                                              href="month/Oct.html">October</a><a
-                    class="dropdown-item" role="presentation" href="month/Nov.html">November</a><a class="dropdown-item"
-                                                                                                   role="presentation"
-                                                                                                   href="month/Dec.html">December</a><a
-                    class="dropdown-item" role="presentation" href="month/Jan.html">January</a><a class="dropdown-item"
-                                                                                                  role="presentation"
-                                                                                                  href="month/Feb.html">February</a><a
-                    class="dropdown-item"
-                    role="presentation" href="month/Mar.html">March</a><a class="dropdown-item" role="presentation"
-                                                                          href="month/Apr.html">April</a><a
-                    class="dropdown-item" role="presentation" href="month/May.html">May</a></div>
-        </li>
-        <a href="#"><i class="fa fa-cog" style="font-size: 32px;margin: 8px;color: rgb(255,255,255);"></i></a><a
-                href="/logout"><i class="fa fa-sign-out"
-                                  style="font-size: 32px;margin: 8px;color: rgb(255,255,255);"></i></a></div>
-</nav>
-<hr style="background-color: #0019ff;margin: 0px;height: 2px;">
-<hr>
+<body style="background-color: rgb(255,255,255);color: rgb(255,255,255); display: none;">
+<script>
+    $(function(){
+        $("#header").load("shared/header.html",function() {
+            $("#footer").load("shared/footer.html",function() {
+                $('body').show();
+            });
+        });
+    });
+</script>
+<div id="header"></div>
 <div class="table-responsive table-bordered" style="padding: 0px;margin: 0px;padding-right: 50px;padding-left: 50px;" ng-controller="submitController">
     <table class="table table-bordered">
         <thead style="background-color: #7e7e7e;">
@@ -131,6 +103,8 @@
 </div>
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<div id="footer"></div>
+
 </body>
 
 </html>

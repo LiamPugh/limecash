@@ -55,5 +55,9 @@ public class BudgetController {
         repoModifier.updateBudgetFromTable(table);
     }
 
-
+    @GetMapping("/getMonthsBudgets")
+    public List<BudgetTableRowModel> getMonthsBudgets(String month){
+        List<BudgetTableRowModel> budgets = getAllBudgetRows();
+        return null;
+    }
 }
