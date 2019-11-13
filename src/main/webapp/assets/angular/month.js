@@ -14,6 +14,8 @@ app.controller('monthController', function($scope, $http) {
             console.log($scope.monthBudget);
         });
 
+
+
     $scope.range = function(min, max, step) {
         step = step || 1;
         var input = [];
@@ -22,4 +24,20 @@ app.controller('monthController', function($scope, $http) {
         }
         return input;
     };
+});
+
+app.controller('transMonthController', function($scope, $http) {
+
+    function get(name){
+        if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
+            return decodeURIComponent(name[1]);
+    }
+
+    $scope.month = get('month');
+
+    $http.get("/getAllTransactionsForMonth/" + $scope.month)
+        .then(function (response) {
+            $scope.transactions = response.data;
+            console.log(response.data);
+        });
 });

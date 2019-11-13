@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="transForm">
+<html ng-app="transferForm">
 
 <head>
     <meta charset="utf-8">
@@ -20,7 +20,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="assets/js/moments.js"></script>
-    <script src="assets/angular/transactionForm.js"></script>
+    <script src="assets/angular/transferForm.js"></script>
 </head>
 
 <body style="background-color: rgb(255,255,255);color: rgb(255,255,255); display: none;">
@@ -44,15 +44,17 @@
         </thead>
         <tbody>
         <tr>
-            <td style="color: rgb(0,0,0);">Name/Description</td>
-            <td class="text-center" style="color: rgb(0,0,0);"><input class="border rounded-0" type="text"
-                                                                      required="" name="name" id="name" ng-model="transObj.name">
-            </td>
-        </tr>
-        <tr>
-            <td style="color: rgb(0,0,0);">Date (Today by Default (DD/MM/YYYY))</td>
-            <td class="text-center" style="color: rgb(0,0,0);"><input class="border rounded-0" type="date"
-                                                                      required="" name="date" id="date" ng-model="transObj.date">
+            <td style="color: rgb(0,0,0);">Transfer Type</td>
+            <td class="text-center" style="color: rgb(0,0,0);margin: 0px;">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <select class="form-control" name="transferType" id="transferType" ng-model="transObj.transferType">
+                            <option>Account</option>
+                            <option>Bucket</option>
+<!--                            <option>Area</option>-->
+                        </select>
+                    </div>
+                </form>
             </td>
         </tr>
         <tr>
@@ -61,47 +63,72 @@
                                                                       required="" name="value" id="value" ng-model="transObj.value">
             </td>
         </tr>
-        <tr>
-            <td style="color: rgb(0,0,0);">Incoming (Leave blank for outgoing)?</td>
-            <td class="text-center" style="color: rgb(0,0,0);"><input type="checkbox"
-                                                                      style="height: 13px;font-size: 16px;"
-                                                                      name="incoming" id="incoming" ng-model="transObj.incoming"></td>
-        </tr>
-<!--        <tr>-->
-<!--            <td style="color: rgb(0,0,0);">Complete (Untick if payment pending)?</td>-->
-<!--            <td class="text-center" style="color: rgb(0,0,0);"><input type="checkbox" checked="" name="complete"-->
-<!--                                                                      id="complete" ng-model="transObj.complete"></td>-->
-<!--        </tr>-->
-        <tr>
-            <td style="color: rgb(0,0,0);">Account Impacted</td>
+        <tr ng-show="transObj.transferType === 'Account'">
+            <td style="color: rgb(0,0,0);">Account From</td>
             <td class="text-center" style="color: rgb(0,0,0);margin: 0px;">
                 <form class="form-inline">
                     <div class="form-group">
-                        <select class="form-control" name="accountImpacted" id="accountImpacted" ng-model="transObj.accountImpacted">
+                        <select class="form-control" name="accountFrom" id="accountFrom" ng-model="transObj.from">
                             <option ng-repeat="option in accounts">{{option.name}}</option>
                         </select>
                     </div>
                 </form>
             </td>
         </tr>
-        <tr>
-            <td style="color: rgb(0,0,0);">Bucket Impacted</td>
+        <tr ng-show="transObj.transferType === 'Account'">
+            <td style="color: rgb(0,0,0);">Account To</td>
             <td class="text-center" style="color: rgb(0,0,0);margin: 0px;">
                 <form class="form-inline">
                     <div class="form-group">
-                        <select class="form-control" name="bucketImpacted" id="bucketImpacted" ng-model="transObj.bucketImpacted">
+                        <select class="form-control" name="accountTo" id="accountTo" ng-model="transObj.to">
+                            <option ng-repeat="option in accounts">{{option.name}}</option>
+                        </select>
+                    </div>
+                </form>
+            </td>
+        </tr>
+        <tr ng-show="transObj.transferType === 'Bucket'">
+            <td style="color: rgb(0,0,0);">Bucket From</td>
+            <td class="text-center" style="color: rgb(0,0,0);margin: 0px;">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <select class="form-control" name="bucketFrom" id="bucketFrom" ng-model="transObj.from">
                             <option ng-repeat="option in buckets">{{option.name}}</option>
                         </select>
                     </div>
                 </form>
             </td>
         </tr>
-        <tr>
-            <td style="color: rgb(0,0,0);">Area Impacted</td>
+        <tr ng-show="transObj.transferType === 'Bucket'">
+            <td style="color: rgb(0,0,0);">Bucket To</td>
             <td class="text-center" style="color: rgb(0,0,0);margin: 0px;">
                 <form class="form-inline">
                     <div class="form-group">
-                        <select class="form-control" name="areaImpacted" id="areaImpacted" ng-model="transObj.areaImpacted">
+                        <select class="form-control" name="bucketTo" id="bucketTo" ng-model="transObj.to">
+                            <option ng-repeat="option in buckets">{{option.name}}</option>
+                        </select>
+                    </div>
+                </form>
+            </td>
+        </tr>
+        <tr ng-show="transObj.transferType === 'Area'">
+            <td style="color: rgb(0,0,0);">Area From</td>
+            <td class="text-center" style="color: rgb(0,0,0);margin: 0px;">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <select class="form-control" name="areaFrom" id="areaFrom" ng-model="transObj.from">
+                            <option ng-repeat="option in areas">{{option}}</option>
+                        </select>
+                    </div>
+                </form>
+            </td>
+        </tr>
+        <tr ng-show="transObj.transferType === 'Area'">
+            <td style="color: rgb(0,0,0);">Area To</td>
+            <td class="text-center" style="color: rgb(0,0,0);margin: 0px;">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <select class="form-control" name="areaTo" id="areaTo" ng-model="transObj.to">
                             <option ng-repeat="option in areas">{{option}}</option>
                         </select>
                     </div>

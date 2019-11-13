@@ -11,11 +11,15 @@ public class UITransaction {
     private Boolean incoming;
     private Boolean complete;
     private String accountImpacted;
+    private String bucketImpacted;
+    private String areaImpacted;
 
     public UITransaction() {
     }
 
-    public UITransaction(String name, Date date, Double value, Integer quantity, Boolean incoming, Boolean complete, String accountImpacted) {
+
+    public UITransaction(String name, Date date, Double value, Integer quantity, Boolean incoming, Boolean complete,
+                         String accountImpacted, String bucketImpacted, String areaImpacted) {
         this.name = name;
         this.date = date;
         this.value = value;
@@ -23,6 +27,8 @@ public class UITransaction {
         this.incoming = incoming;
         this.complete = complete;
         this.accountImpacted = accountImpacted;
+        this.bucketImpacted = bucketImpacted;
+        this.areaImpacted = areaImpacted;
     }
 
     public String getName() {
@@ -79,5 +85,21 @@ public class UITransaction {
 
     public void setAccountImpacted(String accountImpacted) {
         this.accountImpacted = accountImpacted;
+    }
+
+    public String getBucketImpacted() {
+        return bucketImpacted;
+    }
+
+    public void setBucketImpacted(String bucketImpacted) {
+        this.bucketImpacted = bucketImpacted;
+    }
+
+    public String getAreaImpacted() {
+        return areaImpacted;
+    }
+
+    public void setAreaImpacted(String areaImpacted) {
+        this.areaImpacted = areaImpacted;
     }
 }

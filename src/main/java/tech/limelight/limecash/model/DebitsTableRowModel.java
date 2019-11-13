@@ -1,12 +1,12 @@
 package tech.limelight.limecash.model;
 
-public class BudgetTableRowModel {
+public class DebitsTableRowModel {
 
     private String budgetName;
     private Double[] months;
 
 
-    public BudgetTableRowModel(String budgetName, Double[] months) {
+    public DebitsTableRowModel(String budgetName, Double[] months) {
         this.budgetName = budgetName;
         this.months = months;
     }

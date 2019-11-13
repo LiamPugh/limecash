@@ -15,40 +15,27 @@ public class Budget {
     private @Id @GeneratedValue Long id;
 
     @Column(length=100000000)
-    private String[][] areas;
+    private String area;
     @Column(length=100000000)
-    private Double[][] areaAllowance;
+    private Double[] areaTotal;
     @Column(length=100000000)
-    private Double[][] monthlySpend;
+    private Double[] monthlyMovement;
     @Column(length=100000000)
-    private Double[][] remaining;
+    private Double[] remaining;
+
+    private Boolean credit;
     private String owner;
 
     public Budget() {
     }
 
-    public Budget(String[][] areas, Double[][] areaAllowance, Double[][] monthlySpend, Double[][] remaining, String owner) {
-        this.areas = areas;
-        this.areaAllowance = areaAllowance;
-        this.monthlySpend = monthlySpend;
+    public Budget(String area, Double[] areaTotal, Double[] monthlyMovement, Double[] remaining, Boolean credit, String owner) {
+        this.area = area;
+        this.areaTotal = areaTotal;
+        this.monthlyMovement = monthlyMovement;
         this.remaining = remaining;
+        this.credit = credit;
         this.owner = owner;
-    }
-
-    public String[][] getAreas() {
-        return areas;
-    }
-
-    public void setAreas(String[][] areas) {
-        this.areas = areas;
-    }
-
-    public Double[][] getAreaAllowance() {
-        return areaAllowance;
-    }
-
-    public void setAreaAllowance(Double[][] areaAllowance) {
-        this.areaAllowance = areaAllowance;
     }
 
     public Long getId() {
@@ -59,20 +46,44 @@ public class Budget {
         this.id = id;
     }
 
-    public Double[][] getMonthlySpend() {
-        return monthlySpend;
+    public String getArea() {
+        return area;
     }
 
-    public void setMonthlySpend(Double[][] monthlySpend) {
-        this.monthlySpend = monthlySpend;
+    public void setArea(String area) {
+        this.area = area;
     }
 
-    public Double[][] getRemaining() {
+    public Double[] getAreaTotal() {
+        return areaTotal;
+    }
+
+    public void setAreaTotal(Double[] areaTotal) {
+        this.areaTotal = areaTotal;
+    }
+
+    public Double[] getMonthlyMovement() {
+        return monthlyMovement;
+    }
+
+    public void setMonthlyMovement(Double[] monthlyMovement) {
+        this.monthlyMovement = monthlyMovement;
+    }
+
+    public Double[] getRemaining() {
         return remaining;
     }
 
-    public void setRemaining(Double[][] remaining) {
+    public void setRemaining(Double[] remaining) {
         this.remaining = remaining;
+    }
+
+    public Boolean getCredit() {
+        return credit;
+    }
+
+    public void setCredit(Boolean credit) {
+        this.credit = credit;
     }
 
     public String getOwner() {
@@ -82,9 +93,4 @@ public class Budget {
     public void setOwner(String owner) {
         this.owner = owner;
     }
-
-    public void setValue(int a, int b, Double value){
-        this.areaAllowance[b][a] = value;
-    }
-
 }

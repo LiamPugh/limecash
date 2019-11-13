@@ -1,10 +1,7 @@
 package tech.limelight.limecash.model;
 
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import tech.limelight.limecash.controller.AccountController;
-import tech.limelight.limecash.repository.AccountRepository;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +9,7 @@ import javax.persistence.Id;
 import java.util.Date;
 
 import static tech.limelight.limecash.controller.AccountController.getAccIdFromName;
+import static tech.limelight.limecash.controller.BucketController.getBucketIdFromName;
 
 @Data
 @Entity
@@ -26,6 +24,8 @@ public class Transaction {
     private Boolean complete;
     private String owner;
     private Long accountID;
+    private Long bucketImpacted;
+    private String areaImpacted;
 
     public Transaction() {
     }
@@ -39,9 +39,11 @@ public class Transaction {
         this.complete = transaction.getComplete();
         this.owner = SecurityContextHolder.getContext().getAuthentication().getName();
         this.accountID = getAccIdFromName(transaction.getAccountImpacted());
+        this.bucketImpacted = getBucketIdFromName(transaction.getBucketImpacted());
+        this.areaImpacted = transaction.getAreaImpacted();
     }
 
-    public Transaction(String name, Date date, Double value, Integer quantity, Boolean incoming, Boolean complete, String owner, Long accountID) {
+    public Transaction(String name, Date date, Double value, Integer quantity, Boolean incoming, Boolean complete, String owner, Long accountID, Long bucketImpacted, String areaImpacted) {
         this.name = name;
         this.date = date;
         this.value = value;
@@ -50,6 +52,8 @@ public class Transaction {
         this.complete = complete;
         this.owner = owner;
         this.accountID = accountID;
+        this.bucketImpacted = bucketImpacted;
+        this.areaImpacted = areaImpacted;
     }
 
     public Date getDate() {
@@ -122,5 +126,21 @@ public class Transaction {
 
     public void setAccountID(Long accountID) {
         this.accountID = accountID;
+    }
+
+    public Long getBucketImpacted() {
+        return bucketImpacted;
+    }
+
+    public void setBucketImpacted(Long bucketImpacted) {
+        this.bucketImpacted = bucketImpacted;
+    }
+
+    public String getAreaImpacted() {
+        return areaImpacted;
+    }
+
+    public void setAreaImpacted(String areaImpacted) {
+        this.areaImpacted = areaImpacted;
     }
 }

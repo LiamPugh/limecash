@@ -8,6 +8,8 @@ export class UITransaction {
         public incoming: string,
         public complete: string,
         public accountImpacted: string,
+        public bucketImpacted: string,
+        public areaImpacted: string,
     ) {  }
 
 }

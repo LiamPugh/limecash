@@ -69,6 +69,7 @@
 <hr style="background-color: #0019ff;margin: 0px;height: 2px;">
 <hr>
 <div class="table-responsive table-borderless text-center"
+     ng-controller="transMonthController"
      style="color: rgba(255,255,255,0);font-size: 16px;background-color: rgba(255,255,255,0);margin: 0px;padding: 0px;">
     <table class="table table-bordered table-sm">
         <thead>
@@ -85,20 +86,22 @@
                         <tr style="color: rgba(0,128,255,0);">
                             <th class="text-center">ID</th>
                             <th class="text-center">Date</th>
+                            <th class="text-center">Incoming?</th>
                             <th class="text-center">Item</th>
                             <th class="text-center">Price</th>
                             <th class="text-center">Quantity</th>
                             <th class="text-center">Total</th>
                             <th class="text-center">Area</th>
                         </tr>
-                        <tr style="color: rgba(0,128,255,0);">
-                            <th class="text-center">ID1</th>
-                            <th class="text-center">Date1</th>
-                            <th class="text-center">Item1</th>
-                            <th class="text-center">Price1</th>
-                            <th class="text-center">Quantity1</th>
-                            <th class="text-center">Total1</th>
-                            <th class="text-center">Area1</th>
+                        <tr style="color: rgba(0,128,255,0);" ng-repeat="transaction in transactions">
+                            <th class="text-center">{{transaction.id}}</th>
+                            <th class="text-center">{{transaction.date.substring(0,10)}}</th>
+                            <th class="text-center">{{transaction.incoming}}</th>
+                            <th class="text-center">{{transaction.name}}</th>
+                            <th class="text-center">{{transaction.value}}</th>
+                            <th class="text-center">{{transaction.quantity}}</th>
+                            <th class="text-center">{{transaction.value * transaction.quantity}}</th>
+                            <th class="text-center">{{transaction.areaImpacted}}</th>
                         </tr>
                         </tbody>
                     </table>
