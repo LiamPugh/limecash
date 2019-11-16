@@ -49,6 +49,27 @@ public class BudgetController {
         return budgetRepository.findAll().stream().filter(a -> a.getOwner().equals(SecurityContextHolder.getContext().getAuthentication().getName())).collect(Collectors.toList());
     }
 
+    @GetMapping("/getAllIncomes/{yearString}")
+    public List<IncomeTableRowModel> getAllIncomes(@PathVariable String yearString) {
+        ArrayList<IncomeTableRowModel> incomeTableRows = new ArrayList<>();
+        List<Budget> budgetRows = budgetRepository.findAll().stream().filter(a -> a.getCredit() && a.getYear().equals(Long.parseLong(yearString)))
+                .filter(a -> a.getOwner().equals(SecurityContextHolder.getContext().getAuthentication().getName())).collect(Collectors.toList());
+        for(Budget budget : budgetRows){
+            Double[] lows = budget.getMonthlyMovement();
+            boolean pass = true;
+            for(Double low : lows){
+                if(low != Double.MIN_VALUE){
+                    pass = false;
+                    break;
+                }
+            }
+            if(pass) {
+                incomeTableRows.add(new IncomeTableRowModel(budget.getArea(), budget.getAreaTotal(), budget.getRemaining()));
+            }
+        }
+        return incomeTableRows;
+    }
+
     @GetMapping("/getAllAreas")
     public List<String> getAllAreas() {
         ArrayList<String> budgetAreas = new ArrayList<>();
@@ -56,6 +77,36 @@ public class BudgetController {
             budgetAreas.add(budget.getArea());
         }
         return budgetAreas;
+    }
+
+    @GetMapping("/submitIncomeCompleted/{incomeName}/{monthNumberString}/{yearString}")
+    public void submitIncomeComplete(@PathVariable String incomeName, @PathVariable String monthNumberString, @PathVariable String yearString) {
+        List<Budget> budgets = getAllBudgets();
+        int monthNum = Integer.parseInt(monthNumberString);
+        for(Budget budget : budgets){
+            if(budget.getYear().equals(Long.parseLong(yearString)) && budget.getArea().equals(incomeName) && budget.getCredit()){
+                Double[] doubles = budget.getRemaining();
+                doubles[monthNum] = budget.getAreaTotal()[monthNum];
+                budget.setRemaining(doubles);
+                budgetRepository.save(budget);
+                break;
+            }
+        }
+    }
+
+    @GetMapping("/submitIncomeNotCompleted/{incomeName}/{monthNumberString}/{yearString}")
+    public void submitIncomeNotComplete(@PathVariable String incomeName, @PathVariable String monthNumberString, @PathVariable String yearString) {
+        List<Budget> budgets = getAllBudgets();
+        int monthNum = Integer.parseInt(monthNumberString);
+        for(Budget budget : budgets){
+            if(budget.getYear().equals(Long.parseLong(yearString)) && budget.getArea().equals(incomeName)){
+                Double[] doubles = budget.getRemaining();
+                doubles[monthNum] = 0.0;
+                budget.setRemaining(doubles);
+                budgetRepository.save(budget);
+                break;
+            }
+        }
     }
 
 

@@ -1,0 +1,77 @@
+<html ng-app="limecashIncome">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Income Management</title>
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="assets/angular/incomeController.js"></script>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/untitled-1.css">
+    <link rel="stylesheet" href="assets/css/untitled-2.css">
+    <link rel="stylesheet" href="assets/css/untitled-3.css">
+    <link rel="stylesheet" href="assets/css/untitled.css">
+</head>
+
+<body style="background-color: rgb(33,33,33);color: rgb(255,255,255);  display: none;">
+<script>
+    $(function () {
+        $("#header").load("shared/header.html", function () {
+            $("#footer").load("shared/footer.html", function () {
+                $('body').show();
+            });
+        });
+    });
+
+</script>
+<div id="header"></div>
+<div class="table-responsive table-borderless text-center"
+     style="color: rgba(255,255,255,0);font-size: 16px;background-color: rgba(255,255,255,0);margin: 0px;padding: 0px;"
+     ng-controller="incomeController">
+    <p style="color: white; font-weight: bolder; font-size: x-large">Income Management</p>
+    <table class="table table-bordered table-sm">
+        <thead>
+        <tr>
+            <th class="text-center">Income</th>
+            <th class="text-center" colspan="12">Month</th>
+        </tr>
+        <tr>
+            <th class="text-center"></th>
+            <th class="text-center">Jun</th>
+            <th class="text-center">Jul</th>
+            <th class="text-center">Aug</th>
+            <th class="text-center">Sep</th>
+            <th class="text-center">Oct</th>
+            <th class="text-center">Nov</th>
+            <th class="text-center">Dec</th>
+            <th class="text-center">Jan</th>
+            <th class="text-center">Feb</th>
+            <th class="text-center">Mar</th>
+            <th class="text-center">Apr</th>
+            <th class="text-center">May</th>
+        </tr>
+        </thead>
+        <tr ng-repeat="budget in budgets">
+            <td>
+                <span contenteditable="false">{{budget.budgetName}}</span>
+            </td>
+            <td ng-repeat="i in range(0,11)">
+                <div style="align-content: center" class="text-center">
+                    <span contenteditable="true">{{budget.months[i]}}</span>
+                    <i class="fa fa-check-circle" style="color: green" ng-show="!budget.paymentCompleted[i]"
+                       ng-click="markCompleted(budget.budgetName, i)"></i>
+                    <i class="fa fa-times-circle" style="color: red" ng-show="budget.paymentCompleted[i]"
+                       ng-click="markNotCompleted(budget.budgetName, i)"></i>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<div id="footer"></div>
+</body>
+
+</html>
