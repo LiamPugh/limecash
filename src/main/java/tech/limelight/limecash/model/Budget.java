@@ -22,6 +22,7 @@ public class Budget {
     private Double[] monthlyMovement;
     @Column(length=100000000)
     private Double[] remaining;
+    private Long year;
 
     private Boolean credit;
     private String owner;
@@ -29,13 +30,14 @@ public class Budget {
     public Budget() {
     }
 
-    public Budget(String area, Double[] areaTotal, Double[] monthlyMovement, Double[] remaining, Boolean credit, String owner) {
+    public Budget(String area, Double[] areaTotal, Double[] monthlyMovement, Double[] remaining, Boolean credit, String owner, Long year) {
         this.area = area;
         this.areaTotal = areaTotal;
         this.monthlyMovement = monthlyMovement;
         this.remaining = remaining;
         this.credit = credit;
         this.owner = owner;
+        this.year = year;
     }
 
     public Long getId() {
@@ -92,5 +94,13 @@ public class Budget {
 
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+
+    public Long getYear() {
+        return year;
+    }
+
+    public void setYear(Long year) {
+        this.year = year;
     }
 }

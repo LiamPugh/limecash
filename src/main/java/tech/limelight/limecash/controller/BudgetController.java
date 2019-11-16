@@ -4,13 +4,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import tech.limelight.limecash.model.*;
 import tech.limelight.limecash.repository.BudgetRepository;
-import tech.limelight.limecash.service.RepoModifier;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,20 +15,19 @@ import java.util.stream.Collectors;
 public class BudgetController {
 
     private BudgetRepository budgetRepository;
-    private RepoModifier repoModifier;
 
-    public BudgetController(BudgetRepository budgetRepository, RepoModifier repoModifier) {
+    public BudgetController(BudgetRepository budgetRepository) {
         this.budgetRepository = budgetRepository;
-        this.repoModifier = repoModifier;
     }
 
     void addTransToBudget(Transaction trans) {
         int month = trans.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getMonthValue() + 6;
         if (month > 12) month -= 12;
+        LocalDate localDate = trans.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
         List<Budget> budgetList = getAllBudgets().stream().filter(a -> !a.getCredit()).collect(Collectors.toList());
         for (Budget budget : budgetList) {
-            if (budget.getArea().equals(trans.getAreaImpacted())) {
+            if (budget.getArea().equals(trans.getAreaImpacted()) && budget.getYear().equals((long) localDate.getYear())) {
                 Double[] remaining = budget.getRemaining();
                 Double[] monthlySpend = budget.getMonthlyMovement();
                 if (trans.getIncoming()) {
@@ -63,27 +59,29 @@ public class BudgetController {
     }
 
 
-    private List<DebitsTableRowModel> getDebitsRowModel(List<Budget> budgets) {
+    private List<DebitsTableRowModel> getDebitsRowModel(List<Budget> budgets, Long year) {
         ArrayList<DebitsTableRowModel> rows = new ArrayList<>();
         for (Budget budget : budgets) {
-            if (!budget.getCredit()) {
+            if (!budget.getCredit() && budget.getYear().equals(year)) {
                 rows.add(new DebitsTableRowModel(budget.getArea(), budget.getAreaTotal()));
             }
         }
         return rows;
     }
 
-    @GetMapping("/getAllBudgetRows")
-    public List<DebitsTableRowModel> getAllBudgetRows() {
-        return getDebitsRowModel(getAllBudgets());
+    @GetMapping("/getAllBudgetRows/{yearString}")
+    public List<DebitsTableRowModel> getAllBudgetRows(@PathVariable String yearString) {
+        Long year = Long.parseLong(yearString);
+        return getDebitsRowModel(getAllBudgets(), year);
     }
 
-    @PostMapping("/setAllBudgetAreas")
-    public void setBudgets(@RequestBody List<DebitsTableRowModel> table) {
+    @PostMapping("/setAllBudgetAreas/{yearString}")
+    public void setBudgets(@RequestBody List<DebitsTableRowModel> table, @PathVariable String yearString) {
+        Long year = Long.parseLong(yearString);
         List<Budget> budgetList = getAllBudgets();
         for (DebitsTableRowModel debitsTableRowModel : table) {
             for (Budget budget : budgetList) {
-                if (budget.getArea().equals(debitsTableRowModel.getBudgetName())) {
+                if (budget.getArea().equals(debitsTableRowModel.getBudgetName()) && budget.getYear().equals(year)) {
                     for (int month = 0; month < 12; month++) {
                         Double difference = budget.getAreaTotal()[month] - debitsTableRowModel.getMonths()[month];
                         Double[] areaTotal = budget.getAreaTotal();
@@ -99,8 +97,9 @@ public class BudgetController {
         budgetRepository.saveAll(budgetList);
     }
 
-    @GetMapping("/getMonthsBudgets/{month}")
-    public MonthBudget getMonthsBudgets(@PathVariable String month) {
+    @GetMapping("/getMonthsBudgets/{month}/{yearString}")
+    public MonthBudget getMonthsBudgets(@PathVariable String month, @PathVariable String yearString) {
+        Long year = Long.parseLong(yearString);
         String[] months = {"June", "July", "August", "September", "October", "November", "December", "January", "February", "March", "April", "May"};
         int monthNum = 0;
         for (int i = 0; i < months.length; i++) {
@@ -117,7 +116,7 @@ public class BudgetController {
         ArrayList<Double> spent = new ArrayList<>();
 
         for (Budget budget : getAllBudgets()) {
-            if (!budget.getCredit()) {
+            if (!budget.getCredit() && budget.getYear().equals(year)) {
                 areas.add(budget.getArea());
                 total.add(budget.getAreaTotal()[monthNum]);
                 remaining.add(budget.getRemaining()[monthNum]);

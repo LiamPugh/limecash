@@ -62,6 +62,7 @@ public class Budget2 {
             budget.setAreaTotal(colInverter(budget2.getAreaAllowance(),i));
             budget.setCredit(false);
             budget.setOwner(budget2.owner);
+            budget.setYear(2019L);
             budgetList.add(budget);
         }
         return budgetList;

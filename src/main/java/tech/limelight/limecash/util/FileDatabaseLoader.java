@@ -13,7 +13,9 @@ import tech.limelight.limecash.repository.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Scanner;
 
 import static tech.limelight.limecash.util.Constants.*;
@@ -80,7 +82,11 @@ public class FileDatabaseLoader {
     private String getTransactionsFromFile(TransactionRepository transactionRepository) {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            transactionRepository.saveAll(Arrays.asList(mapper.readValue(new File(TRANSACTIONS_FILENAME), Transaction[].class)));
+            ArrayList<Transaction> transactions = new ArrayList<>(Arrays.asList(mapper.readValue(new File(TRANSACTIONS_FILENAME), Transaction[].class)));
+            for(Transaction transaction : transactions){
+                transaction.setDate(new Date(1560704113000L));
+            }
+            transactionRepository.saveAll(transactions);
             return "Done";
         } catch (IOException e) {
             return "FAILED";

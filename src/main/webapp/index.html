@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="limecashIndex">
+<html ng-app="limecash">
 
 <head>
     <meta charset="utf-8">
@@ -19,118 +19,144 @@
     <link rel="stylesheet" href="assets/css/untitled.css">
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-    <script src="assets/angular/angularIndex.js"></script>
+    <script src="assets/angular/angular.js"></script>
 </head>
 
 <body style="background-color: rgb(33,33,33);color: rgb(255,255,255); display: none">
 <script>
-    $(function(){
-        $("#header").load("shared/header.html",function() {
-            $("#footer").load("shared/footer.html",function() {
+    $(function () {
+        $("#header").load("shared/header.html", function () {
+            $("#footer").load("shared/footer.html", function () {
                 $('body').show();
             });
         });
     });
 </script>
 <div id="header"></div>
-    <div class="table-responsive table-borderless text-center" style="color: rgba(255,255,255,0);font-size: 16px;background-color: rgba(255,255,255,0);margin: 0px;padding: 0px;" ng-controller="indexTable">
-        <table class="table table-bordered table-sm">
-            <thead>
-                <tr>
-                    <th class="visible" style="padding: 12px;">
-                        <div class="table-responsive" style="margin: 0px;">
-                            <table class="table">
-                                <thead>
-                                    <tr></tr>
-                                </thead>
-                                <tbody>
-                                    <tr style="color: rgba(0,128,255,0);">
-                                        <th class="text-right">Starting Total</th>
-                                        <th class="text-center">£{{startingTotal}}</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-right">Finishing Total</th>
-                                        <th class="text-center">£{{finishingTotal}}</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-right">Lowest Point</th>
-                                        <th class="text-center">£{{lowestPoint}}</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-right">Total Income</th>
-                                        <th class="text-center">£{{totalIncome}}</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-right">Total Costs</th>
-                                        <th class="text-center">£{{totalCost}}</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-right">Month Cost</th>
-                                        <th class="text-center">£{{monthlyCost}}</th>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </th>
-                    <th style="color: rgba(255,255,255,0);">
-                        <div class="table-responsive">
-                            <table class="table table-sm">
-                                <thead>
-                                    <tr style="color: rgba(33,37,41,0);"></tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th class="text-center" colspan="2">Buckets</th>
-                                    </tr>
-                                    <tr ng-repeat="bucket in buckets">
-                                        <th class="text-right">{{bucket.name}}</th>
-                                        <th class="text-left">£{{bucket.value}}</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-right">Total:</th>
-                                        <th class="text-left">£{{totalBucket}}</th>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </th>
-                    <th style="color: rgba(255,255,255,0);">
-                        <div class="table-responsive">
-                            <table class="table table-sm">
-                                <thead>
-                                    <tr style="color: rgba(33,37,41,0);"></tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th class="text-center" colspan="2">Accounts</th>
-                                    </tr>
-                                    <tr ng-repeat="account in accounts">
-                                        <th class="text-right">{{account.name}}</th>
-                                        <th class="text-left">£{{account.holding}}</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-right">TOTAL:</th>
-                                        <th class="text-left">£{{totalAccounts}}</th>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr></tr>
-            </tbody>
-        </table>
-        <a href="/AddTrans.html">
-        <button class="btn btn-primary" type="button" style="background-color: rgb(0,162,45);height: 80px;width: 150px;font-size: 19px;">Add Transaction</button>
-        </a>
-        <a href="/AddTransfer.html">
-            <button class="btn btn-primary" type="button" style="background-color: rgb(0,162,45);height: 80px;width: 150px;font-size: 19px;">Add Transfer</button>
-        </a>
-    </div><img src="assets/img/lineGraph.png" style="width: 99vw;padding: 50px;height: 50vh;">
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<div class="table-responsive table-borderless text-center"
+     style="color: rgba(255,255,255,0);font-size: 16px;background-color: rgba(255,255,255,0);margin: 0px;padding: 0px;"
+     ng-controller="indexTable">
+    <table style="margin-left: 50px">
+        <thead>
+        <tr>
+            <td>
+                <select class="form-control" name="year" id="year" ng-model="year">
+                    <option>2019</option>
+                    <option>2020</option>
+                    <option>2021</option>
+                    <option>2022</option>
+                </select>
+            </td>
+            <td>
+                <button class="btn btn-primary" type="button" ng-click="setYear()"
+                        style="background-color: rgb(0,162,45);height: 30px;width: 100px;font-size: 12px;">Set Year
+                </button>
+            </td>
+        </tr>
+        </thead>
+    </table>
+    <table class="table table-bordered table-sm">
+        <thead>
+        <tr>
+            <th class="visible" style="padding: 12px;">
+                <div class="table-responsive" style="margin: 0px;">
+                    <table class="table">
+                        <thead>
+                        <tr></tr>
+                        </thead>
+                        <tbody>
+                        <tr style="color: rgba(0,128,255,0);">
+                            <th class="text-right">Starting Total</th>
+                            <th class="text-center">£{{startingTotal}}</th>
+                        </tr>
+                        <tr>
+                            <th class="text-right">Finishing Total</th>
+                            <th class="text-center">£{{finishingTotal}}</th>
+                        </tr>
+                        <tr>
+                            <th class="text-right">Lowest Point</th>
+                            <th class="text-center">£{{lowestPoint}}</th>
+                        </tr>
+                        <tr>
+                            <th class="text-right">Total Income</th>
+                            <th class="text-center">£{{totalIncome}}</th>
+                        </tr>
+                        <tr>
+                            <th class="text-right">Total Costs</th>
+                            <th class="text-center">£{{totalCost}}</th>
+                        </tr>
+                        <tr>
+                            <th class="text-right">Month Cost</th>
+                            <th class="text-center">£{{monthlyCost}}</th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </th>
+            <th style="color: rgba(255,255,255,0);">
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                        <tr style="color: rgba(33,37,41,0);"></tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th class="text-center" colspan="2">Buckets</th>
+                        </tr>
+                        <tr ng-repeat="bucket in buckets">
+                            <th class="text-right">{{bucket.name}}</th>
+                            <th class="text-left">£{{bucket.value}}</th>
+                        </tr>
+                        <tr>
+                            <th class="text-right">Total:</th>
+                            <th class="text-left">£{{totalBucket}}</th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </th>
+            <th style="color: rgba(255,255,255,0);">
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                        <tr style="color: rgba(33,37,41,0);"></tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th class="text-center" colspan="2">Accounts</th>
+                        </tr>
+                        <tr ng-repeat="account in accounts">
+                            <th class="text-right">{{account.name}}</th>
+                            <th class="text-left">£{{account.holding}}</th>
+                        </tr>
+                        <tr>
+                            <th class="text-right">TOTAL:</th>
+                            <th class="text-left">£{{totalAccounts}}</th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr></tr>
+        </tbody>
+    </table>
+    <a href="/AddTrans.html">
+        <button class="btn btn-primary" type="button"
+                style="background-color: rgb(0,162,45);height: 80px;width: 150px;font-size: 19px;">Add Transaction
+        </button>
+    </a>
+    <a href="/AddTransfer.html">
+        <button class="btn btn-primary" type="button"
+                style="background-color: rgb(0,162,45);height: 80px;width: 150px;font-size: 19px;">Add Transfer
+        </button>
+    </a>
+</div>
+<img src="assets/img/lineGraph.png" style="width: 99vw;padding: 50px;height: 50vh;">
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
 
 <div id="footer"></div>
 

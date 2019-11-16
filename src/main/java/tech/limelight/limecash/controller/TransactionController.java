@@ -1,6 +1,5 @@
 package tech.limelight.limecash.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import tech.limelight.limecash.model.*;
@@ -16,17 +15,17 @@ public class TransactionController {
 
     private TransactionRepository transactionRepository;
 
-    @Autowired
-    private AccountController accountController;
+    private final AccountController accountController;
 
-    @Autowired
-    private BucketController bucketController;
+    private final BucketController bucketController;
 
-    @Autowired
-    private BudgetController budgetController;
+    private final BudgetController budgetController;
 
-    public TransactionController(TransactionRepository transactionRepository) {
+    public TransactionController(TransactionRepository transactionRepository, AccountController accountController, BucketController bucketController, BudgetController budgetController) {
         this.transactionRepository = transactionRepository;
+        this.accountController = accountController;
+        this.bucketController = bucketController;
+        this.budgetController = budgetController;
     }
 
     @GetMapping("/getAllTransactions")
@@ -34,15 +33,15 @@ public class TransactionController {
         return transactionRepository.findAll().stream().filter(a->a.getOwner().equals(SecurityContextHolder.getContext().getAuthentication().getName())).collect(Collectors.toList());
     }
 
-    @GetMapping("/getAllTransactionsForMonth/{month}")
-    public List<Transaction> getTransactionsForMonth(@PathVariable String month){
+    @GetMapping("/getAllTransactionsForMonth/{month}/{yearString}")
+    public List<Transaction> getTransactionsForMonth(@PathVariable String month, @PathVariable String yearString){
+        Long year = Long.parseLong(yearString);
         List<Transaction> transactions = transactionRepository.findAll().stream().filter(a->a.getOwner().equals(SecurityContextHolder.getContext().getAuthentication().getName())).collect(Collectors.toList());
         String[] months = {"January","February","March","April","May","June","July","August","September","October","November","December"};
         ArrayList<Transaction> monthsTransactions = new ArrayList<>();
         for(Transaction transaction: transactions){
-            if(!transaction.getName().equals("MASTER: Starting Position")) {
-                Date date = transaction.getDate();
-                LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate localDate = transaction.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            if(!transaction.getName().equals("MASTER: Starting Position") && localDate.getYear() == year) {
                 int monthNumber = localDate.getMonthValue();
                 if (months[monthNumber-1].equals(month)) {
                     monthsTransactions.add(transaction);
