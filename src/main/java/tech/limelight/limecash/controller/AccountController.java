@@ -1,12 +1,13 @@
 package tech.limelight.limecash.controller;
 
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tech.limelight.limecash.model.Account;
+import tech.limelight.limecash.model.Transaction;
 import tech.limelight.limecash.repository.AccountRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -22,6 +23,28 @@ public class AccountController {
     @GetMapping("/getAllAccounts")
     public List<Account> getAllAccounts(){
         return accountRepository.findAll().stream().filter(a->a.getOwner().equals(SecurityContextHolder.getContext().getAuthentication().getName())).collect(Collectors.toList());
+    }
+
+    @GetMapping("/addNewAccount")
+    public void addNewAccount(){
+        Account account = new Account();
+        account.setOwner("liampugh@limelight.tech");
+        accountRepository.save(account);
+        accountRepository.flush();
+    }
+
+    @GetMapping("/deleteAccount/{id}")
+    public void deleteTransaction(@PathVariable Long id){
+        Optional<Account> account = accountRepository.findById(id);
+        if(account.isPresent() && account.get().getOwner().equals(SecurityContextHolder.getContext().getAuthentication().getName())) accountRepository.deleteById(id);
+    }
+
+    @PostMapping("/saveAllAccounts")
+    public void saveAccounts(@RequestBody List<Account> accounts){
+        for (Account account:accounts) {
+            account.setOwner(SecurityContextHolder.getContext().getAuthentication().getName());
+            accountRepository.save(account);
+        }
     }
 
     public static Long getAccIdFromName(String name){

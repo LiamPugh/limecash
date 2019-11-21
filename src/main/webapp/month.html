@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="assets/css/untitled-2.css">
     <link rel="stylesheet" href="assets/css/untitled-3.css">
     <link rel="stylesheet" href="assets/css/untitled.css">
+    <link rel="stylesheet" href="assets/css/monthStyle.css">
 </head>
 
 <body style="background-color: rgb(33,33,33);color: rgb(255,255,255);  display: none;">
@@ -83,25 +84,27 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr style="color: rgba(0,128,255,0);">
+                        <tr>
                             <th class="text-center">ID</th>
+                            <th class="text-center"></th>
                             <th class="text-center">Date</th>
-                            <th class="text-center">Incoming?</th>
                             <th class="text-center">Item</th>
                             <th class="text-center">Price</th>
                             <th class="text-center">Quantity</th>
                             <th class="text-center">Total</th>
                             <th class="text-center">Area</th>
                         </tr>
-                        <tr style="color: rgba(0,128,255,0);" ng-repeat="transaction in transactions">
-                            <th class="text-center">{{transaction.id}}</th>
-                            <th class="text-center">{{transaction.date.substring(0,10)}}</th>
-                            <th class="text-center">{{transaction.incoming}}</th>
-                            <th class="text-center">{{transaction.name}}</th>
-                            <th class="text-center">{{transaction.value}}</th>
-                            <th class="text-center">{{transaction.quantity}}</th>
-                            <th class="text-center">{{transaction.value * transaction.quantity}}</th>
-                            <th class="text-center">{{transaction.areaImpacted}}</th>
+                        <tr ng-class="{green: transaction.incoming, red: !transaction.incoming}"
+                            style="margin: 0px;"
+                            ng-repeat="transaction in transactions">
+                            <th style="margin: 0px;" class="text-center"><p>{{transaction.id}}</p></th>
+                            <th style="margin: 0px;" class="text-center"><i ng-click="deleteTransaction(transaction.id)" class="fa fa-trash"></i></th>
+                            <th style="margin: 0px;" class="text-center"><p>{{transaction.date.substring(0,10)}}</p></th>
+                            <th style="margin: 0px;" class="text-center"><p>{{transaction.name}}</p></th>
+                            <th style="margin: 0px;" class="text-center"><p>{{transaction.value}}</p></th>
+                            <th style="margin: 0px;" class="text-center"><p>{{transaction.quantity}}</p></th>
+                            <th style="margin: 0px;" class="text-center"><p>{{transaction.value * transaction.quantity}}</p></th>
+                            <th style="margin: 0px;" class="text-center"><p>{{transaction.areaImpacted}}</p></th>
                         </tr>
                         </tbody>
                     </table>

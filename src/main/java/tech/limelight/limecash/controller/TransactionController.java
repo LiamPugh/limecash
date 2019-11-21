@@ -58,6 +58,12 @@ public class TransactionController {
         return transactions.get(0);
     }
 
+    @GetMapping("/deleteTransaction/{id}")
+    public void deleteTransaction(@PathVariable Long id){
+        Optional<Transaction> transaction = transactionRepository.findById(id);
+        if(transaction.isPresent() && transaction.get().getOwner().equals(SecurityContextHolder.getContext().getAuthentication().getName())) transactionRepository.deleteById(id);
+    }
+
     @PostMapping("/addTransaction")
     /**
      * TODO: Add checks for transactions here

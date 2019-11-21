@@ -1,0 +1,92 @@
+<html ng-app="accountMaintenanceScreen">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Budget Month</title>
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="assets/angular/accountMaintenanceScreen.js"></script>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/untitled-1.css">
+    <link rel="stylesheet" href="assets/css/untitled-2.css">
+    <link rel="stylesheet" href="assets/css/untitled-3.css">
+    <link rel="stylesheet" href="assets/css/untitled.css">
+    <link rel="stylesheet" href="assets/css/accountsettingsstyle.css">
+</head>
+
+<body style="background-color: rgb(33,33,33);color: rgb(255,255,255);  display: none;">
+<script>
+    $(function () {
+        $("#header").load("shared/header.html", function () {
+            $("#footer").load("shared/footer.html", function () {
+                $('body').show();
+            });
+        });
+    });
+
+</script>
+<div id="header"></div>
+<div class="table-responsive table-borderless text-center"
+     style="color: rgba(255,255,255,0);font-size: 16px;background-color: rgba(255,255,255,0);margin: 0px;padding: 0px;"
+     ng-controller="accountMaintenanceScreen">
+    <p style="color: white; font-weight: bolder; font-size: x-large">Account Management</p>
+    <button class="btn btn-primary" type="button" ng-click="addAccount()"
+            style="background-color: rgb(0,162,45);height: 30px;width: 90px;font-size: 12px;">Add
+    </button>
+    <table class="table table-bordered table-sm">
+        <thead>
+        <tr>
+            <th class="visible" style="padding: 12px;">
+                <div class="table-responsive" style="margin: 0px;">
+                    <table class="table">
+                        <tbody>
+                        <tr style="color: rgba(0,128,255,0);">
+                            <th class="text-center">ID</th>
+                            <th class="text-center">Name</th>
+                            <th class="text-center">Provider</th>
+                            <th class="text-center">Min Bal</th>
+                            <th class="text-center">Max Bal</th>
+                            <th class="text-center">Overdraft Amount</th>
+                            <th class="text-center">Interest Rate</th>
+                            <th class="text-center">Int Min Bal</th>
+                            <th class="text-center">Int Max Bal</th>
+                            <th class="text-center">Deposit Limit</th>
+                            <th class="text-center">Withdrawal Limit</th>
+                            <th class="text-center"></th>
+                        </tr>
+                        <tr style="color: rgba(0,128,255,0);" ng-repeat="i in range(0,accounts.length - 1)">
+                            <td class="text-center"><span contenteditable="false">{{accounts[i].id}}</span></td>
+                            <td class="text-center"><input type="text" class="" ng-model="accounts[i].name"></td>
+                            <td class="text-center"><input type="text" ng-model="accounts[i].provider"></td>
+                            <td class="text-center"><input type="text" ng-model="accounts[i].minimumBalance"></td>
+                            <td class="text-center"><input type="text" ng-model="accounts[i].maximumBalance"></td>
+                            <td class="text-center"><input type="text" ng-model="accounts[i].overdraftAmount"></td>
+                            <td class="text-center"><input type="text" ng-model="accounts[i].interestRate"></td>
+                            <td class="text-center"><input type="text" ng-model="accounts[i].interestMinimumBalance"></td>
+                            <td class="text-center"><input type="text" ng-model="accounts[i].interestMaximumBalance"></td>
+                            <td class="text-center"><input type="text" ng-model="accounts[i].depositLimit"></td>
+                            <td class="text-center"><input type="text" ng-model="accounts[i].withdrawalLimit"></td>
+                            <td style="margin: 0px;" class="text-center"><i ng-click="deleteAccount(accounts[i].id)" class="fa fa-trash"></i></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr></tr>
+        </tbody>
+    </table>
+<button class="btn btn-primary" type="button" ng-click="saveAccounts()"
+        style="background-color: rgb(0,162,45);height: 30px;width: 90px;font-size: 12px;">Save
+</button>
+</div>
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<div id="footer"></div>
+</body>
+
+</html>

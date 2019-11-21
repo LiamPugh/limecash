@@ -43,6 +43,27 @@ app.controller('indexTable', function($scope, $http, yearSharedData) {
             $scope.accounts.forEach(accountsTotaller);
         });
 
+    var months =  ["January","February","March","April","May","June","July",
+        "August","September","October","November","December"];
+
+    $scope.month = months[(new Date()).getMonth()];
+
+    $http.get("/getMonthsBudgets/" + $scope.month + "/" + yearSharedData.getYear())
+        .then(function (response){
+            console.log("Complete");
+            $scope.monthBudget = response.data;
+            budgetTotaller($scope.monthBudget);
+            console.log($scope.monthBudget);
+        });
+
+    function budgetTotaller(budget){
+        $scope.totalBudget = 0;
+        for(var i = 0; i < budget.remaining.length; i++){
+            $scope.totalBudget += budget.remaining[i];
+        }
+    }
+
+
     $http.get("/getStartingTotal")
         .then(function (response) {
             $scope.startingTotal = response.data.value;
@@ -87,6 +108,15 @@ app.controller('indexTable', function($scope, $http, yearSharedData) {
         yearSharedData.setYear($scope.year);
     };
 
+    $scope.range = function(min, max, step) {
+        step = step || 1;
+        var input = [];
+        for (var i = min; i <= max; i += step) {
+            input.push(i);
+        }
+        return input;
+    };
+
     yearSharedData.initYear();
     $scope.year = yearSharedData.getYear();
 });
@@ -106,8 +136,6 @@ app.controller('monthController', function($scope, $http, yearSharedData) {
             console.log($scope.monthBudget);
         });
 
-
-
     $scope.range = function(min, max, step) {
         step = step || 1;
         var input = [];
@@ -121,6 +149,10 @@ app.controller('transMonthController', function($scope, $http, yearSharedData) {
 
     $scope.year = yearSharedData.getYear();
 
+    $scope.deleteTransaction = function(id){
+        $http.get("/deleteTransaction/" + id).then(function (response) {window.location.reload();});
+    };
+
     function get(name){
         if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
             return decodeURIComponent(name[1]);
@@ -131,6 +163,13 @@ app.controller('transMonthController', function($scope, $http, yearSharedData) {
     $http.get("/getAllTransactionsForMonth/" + $scope.month + "/" + $scope.year)
         .then(function (response) {
             $scope.transactions = response.data;
+            for(var transaction in $scope.transactions){
+                if(transaction.incoming){
+                    transaction.incoming = "Incoming";
+                }else{
+                    transaction.incoming = "Outgoing";
+                }
+            }
             console.log(response.data);
         });
 });
