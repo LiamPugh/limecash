@@ -35,7 +35,9 @@ app.controller('budgetTable',
             });
 
         $scope.saveBudgets = function(){
-            $http.post("/setAllBudgetAreas", $scope.budgets)
+            $http.post("/setAllBudgetAreas/" + yearSharedData.getYear(), $scope.budgets).then(
+                window.location.reload()
+            );
         };
 
         $scope.updateBudgetValue = function(name,number,event){
@@ -48,6 +50,25 @@ app.controller('budgetTable',
                 }
             }
         };
+
+        $scope.addBudget = function(){
+            $http.get("/addBudget/"+yearSharedData.getYear())
+                .then(window.location.reload());
+        };
+
+        $scope.range = function(min, max, step) {
+            step = step || 1;
+            var input = [];
+            for (var i = min; i <= max; i += step) {
+                input.push(i);
+            }
+            return input;
+        };
+
+        $scope.deleteBudget = function(id){
+            $http.get("/deleteBudget/"+id)
+                .then(window.location.reload());
+        }
     }
 );
 

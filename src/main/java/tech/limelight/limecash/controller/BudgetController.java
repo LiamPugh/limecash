@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -58,13 +59,13 @@ public class BudgetController {
             Double[] lows = budget.getMonthlyMovement();
             boolean pass = true;
             for(Double low : lows){
-                if(low != Double.MIN_VALUE){
+                if(low >= 0){
                     pass = false;
                     break;
                 }
             }
             if(pass) {
-                incomeTableRows.add(new IncomeTableRowModel(budget.getArea(), budget.getAreaTotal(), budget.getRemaining()));
+                incomeTableRows.add(new IncomeTableRowModel(budget.getArea(), budget.getAreaTotal(), budget.getRemaining(), budget.getId()));
             }
         }
         return incomeTableRows;
@@ -114,7 +115,7 @@ public class BudgetController {
         ArrayList<DebitsTableRowModel> rows = new ArrayList<>();
         for (Budget budget : budgets) {
             if (!budget.getCredit() && budget.getYear().equals(year)) {
-                rows.add(new DebitsTableRowModel(budget.getArea(), budget.getAreaTotal()));
+                rows.add(new DebitsTableRowModel(budget.getArea(), budget.getAreaTotal(),budget.getId()));
             }
         }
         return rows;
@@ -132,7 +133,9 @@ public class BudgetController {
         List<Budget> budgetList = getAllBudgets();
         for (DebitsTableRowModel debitsTableRowModel : table) {
             for (Budget budget : budgetList) {
-                if (budget.getArea().equals(debitsTableRowModel.getBudgetName()) && budget.getYear().equals(year)) {
+                if (budget.getId().equals(debitsTableRowModel.getId())) {
+                    budget.setArea(debitsTableRowModel.getBudgetName());
+                    budget.setYear(year);
                     for (int month = 0; month < 12; month++) {
                         Double difference = budget.getAreaTotal()[month] - debitsTableRowModel.getMonths()[month];
                         Double[] areaTotal = budget.getAreaTotal();
@@ -180,5 +183,41 @@ public class BudgetController {
         monthBudget.setMonthlySpend(spent.toArray(new Double[0]));
         monthBudget.setAreaAllowance(total.toArray(new Double[0]));
         return monthBudget;
+    }
+
+    @GetMapping("/addBudget/{year}")
+    public void addBudget(@PathVariable Long year){
+        Budget budget = new Budget();
+        budget.setYear(year);
+        budget.setOwner(SecurityContextHolder.getContext().getAuthentication().getName());
+        budget.setCredit(false);
+        Double[] areaTotal = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
+        budget.setAreaTotal(areaTotal);
+        budget.setArea("New Area");
+        Budget budget1 = budgetRepository.save(budget);
+        budgetRepository.flush();
+    }
+
+    @GetMapping("/deleteBudget/{id}")
+    public void deleteBudget(@PathVariable Long id){
+        Optional<Budget> budget = budgetRepository.findById(id);
+        if(budget.isPresent() && budget.get().getOwner().equals(SecurityContextHolder.getContext().getAuthentication().getName())) budgetRepository.deleteById(id);
+    }
+
+    @GetMapping("/addIncome/{year}")
+    public void addIncome(@PathVariable Long year){
+        Budget budget = new Budget();
+        budget.setYear(year);
+        budget.setOwner(SecurityContextHolder.getContext().getAuthentication().getName());
+        budget.setCredit(true);
+        Double[] areaTotal = {1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0};
+        Double[] remaining = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
+        Double[] lows = {-1.1,-1.1,-1.1,-1.1,-1.1,-1.1,-1.1,-1.1,-1.1,-1.1,-1.1,-1.1};
+        budget.setAreaTotal(areaTotal);
+        budget.setRemaining(remaining);
+        budget.setMonthlyMovement(lows);
+        budget.setArea("New Area");
+        Budget budget1 = budgetRepository.save(budget);
+        budgetRepository.flush();
     }
 }

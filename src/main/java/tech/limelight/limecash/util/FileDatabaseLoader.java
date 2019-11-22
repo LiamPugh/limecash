@@ -45,9 +45,7 @@ public class FileDatabaseLoader {
             log.info("Loading buckets: " + getBucketsFromFile(bucketRepository));
             log.info("Loading users: " + getUserFromFile(userRepository));
             Double[] total = {1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 1.10, 1.11, 1.12};
-            Double[] lows = {Double.MIN_VALUE, Double.MIN_VALUE, Double.MIN_VALUE, Double.MIN_VALUE, Double.MIN_VALUE,
-                    Double.MIN_VALUE, Double.MIN_VALUE, Double.MIN_VALUE, Double.MIN_VALUE, Double.MIN_VALUE,
-                    Double.MIN_VALUE, Double.MIN_VALUE};
+            Double[] lows = {-1.1,-1.1,-1.1,-1.1,-1.1,-1.1,-1.1,-1.1,-1.1,-1.1,-1.1,-1.1};
             Double[] zero = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
             budgetRepository.save(new Budget("Income Test",total,lows,zero,true,"liampugh@limelight.tech",2019L));
             //encryptDecryptFiles(true,ENCRYPTED_FILENAMES,UNENCRYPTED_FILENAMES,passwd);

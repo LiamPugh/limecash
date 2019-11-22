@@ -1,0 +1,35 @@
+.name{
+    border: none;
+    display: inline;
+    font-family: inherit;
+    font-size: inherit;
+    padding: 0px;
+    background: none;
+    margin: 0px;
+    text-align: center;
+    color: white;
+    size: 1px;
+    min-width: 100px;
+    max-width: 300px;
+    width: -moz-min-content;
+}
+input {
+    border: none;
+    display: inline;
+    font-family: inherit;
+    font-size: inherit;
+    padding: 0px;
+    background: none;
+    margin: 0px;
+    text-align: center;
+    color: white;
+    size: 1px;
+    min-width: 10px;
+    max-width: 50px;
+    width: -moz-min-content;
+}
+td {
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+}

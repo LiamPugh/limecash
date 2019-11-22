@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="assets/css/untitled-2.css">
 <link rel="stylesheet" href="assets/css/untitled-3.css">
 <link rel="stylesheet" href="assets/css/untitled.css">
+<link rel="stylesheet" href="assets/css/budgetSheet.css">
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <script src="assets/angular/angularBudgetSheet.js"></script>
 </head>
@@ -30,8 +31,11 @@
     });
 </script>
 <div id="header"></div>
-<div class="table-responsive table-borderless text-center" style="color: rgba(255,255,255,0);font-size: 16px;background-color: rgba(255,255,255,0);margin: 0px;padding: 0px;" ng-controller="budgetTable">
+<div class="table-responsive table-borderless text-center" style="height: 80vh;color: rgba(255,255,255,0);font-size: 16px;background-color: rgba(255,255,255,0);margin: 0px;padding: 0px;" ng-controller="budgetTable">
     <p style="color: white; font-weight: bolder; font-size: x-large">Budget Management</p>
+    <button class="btn btn-primary" type="button" ng-click="addBudget()"
+            style="background-color: rgb(0,162,45);height: 30px;width: 90px;font-size: 12px;">Add
+    </button>
     <table class="table table-bordered table-sm">
         <thead>
         <tr>
@@ -39,6 +43,7 @@
             <th class="text-center" colspan="12">Month</th>
         </tr>
         <tr>
+            <th class="text-center"></th>
             <th class="text-center"></th>
             <th class="text-center">Jun</th>
             <th class="text-center">Jul</th>
@@ -54,24 +59,25 @@
             <th class="text-center">May</th>
         </tr>
         </thead>
-        <tr ng-repeat="budget in budgets">
-            <td><span contenteditable="false">{{budget.budgetName}}</span></td>
-            <td><span contenteditable="true" ng-keyup="updateBudgetValue(budget.budgetName,0,$event)">{{budget.months[0]}}</span></td>
-            <td><span contenteditable="true" ng-keyup="updateBudgetValue(budget.budgetName,1,$event)">{{budget.months[1]}}</span></td>
-            <td><span contenteditable="true" ng-keyup="updateBudgetValue(budget.budgetName,2,$event)">{{budget.months[2]}}</span></td>
-            <td><span contenteditable="true" ng-keyup="updateBudgetValue(budget.budgetName,3,$event)">{{budget.months[3]}}</span></td>
-            <td><span contenteditable="true" ng-keyup="updateBudgetValue(budget.budgetName,4,$event)">{{budget.months[4]}}</span></td>
-            <td><span contenteditable="true" ng-keyup="updateBudgetValue(budget.budgetName,5,$event)">{{budget.months[5]}}</span></td>
-            <td><span contenteditable="true" ng-keyup="updateBudgetValue(budget.budgetName,6,$event)">{{budget.months[6]}}</span></td>
-            <td><span contenteditable="true" ng-keyup="updateBudgetValue(budget.budgetName,7,$event)">{{budget.months[7]}}</span></td>
-            <td><span contenteditable="true" ng-keyup="updateBudgetValue(budget.budgetName,8,$event)">{{budget.months[8]}}</span></td>
-            <td><span contenteditable="true" ng-keyup="updateBudgetValue(budget.budgetName,9,$event)">{{budget.months[9]}}</span></td>
-            <td><span contenteditable="true" ng-keyup="updateBudgetValue(budget.budgetName,10,$event)">{{budget.months[10]}}</span></td>
-            <td><span contenteditable="true" ng-keyup="updateBudgetValue(budget.budgetName,11,$event)">{{budget.months[11]}}</span></td>
+        <tr ng-repeat="i in range(0, budgets.length - 1)">
+            <td><input class="name" type="text" ng-model="budgets[i].budgetName"></td>
+            <td style="margin: 0px;" class="text-center"><i ng-click="deleteBudget(budgets[i].id)" class="fa fa-trash"></i></td>
+            <td><input type="text" ng-model="budgets[i].months[0]"></td>
+            <td><input type="text" ng-model="budgets[i].months[1]"></td>
+            <td><input type="text" ng-model="budgets[i].months[2]"></td>
+            <td><input type="text" ng-model="budgets[i].months[3]"></td>
+            <td><input type="text" ng-model="budgets[i].months[4]"></td>
+            <td><input type="text" ng-model="budgets[i].months[5]"></td>
+            <td><input type="text" ng-model="budgets[i].months[6]"></td>
+            <td><input type="text" ng-model="budgets[i].months[7]"></td>
+            <td><input type="text" ng-model="budgets[i].months[8]"></td>
+            <td><input type="text" ng-model="budgets[i].months[9]"></td>
+            <td><input type="text" ng-model="budgets[i].months[10]"></td>
+            <td><input type="text" ng-model="budgets[i].months[11]"></td>
         </tr>
     </table>
-    <button class="btn btn-primary" ng-click="saveBudgets()" type="button" style="background-color: rgb(76,200,0);">
-        Save Changes
+    <button class="btn btn-primary" type="button" ng-click="saveBudgets()"
+            style="background-color: rgb(0,162,45);height: 60px;width: 90px;font-size: 12px;">Save Changes
     </button>
 </div>
 <script src="assets/js/jquery.min.js"></script>

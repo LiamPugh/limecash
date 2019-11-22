@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="assets/css/untitled-2.css">
     <link rel="stylesheet" href="assets/css/untitled-3.css">
     <link rel="stylesheet" href="assets/css/untitled.css">
+    <link rel="stylesheet" href="assets/css/budgetSheet.css">
 </head>
 
 <body style="background-color: rgb(33,33,33);color: rgb(255,255,255);  display: none;">
@@ -31,6 +32,9 @@
      style="color: rgba(255,255,255,0);font-size: 16px;background-color: rgba(255,255,255,0);margin: 0px;padding: 0px;"
      ng-controller="incomeController">
     <p style="color: white; font-weight: bolder; font-size: x-large">Income Management</p>
+    <button class="btn btn-primary" type="button" ng-click="addIncome()"
+            style="background-color: rgb(0,162,45);height: 30px;width: 90px;font-size: 12px;">Add
+    </button>
     <table class="table table-bordered table-sm">
         <thead>
         <tr>
@@ -38,6 +42,7 @@
             <th class="text-center" colspan="12">Month</th>
         </tr>
         <tr>
+            <th class="text-center"></th>
             <th class="text-center"></th>
             <th class="text-center">Jun</th>
             <th class="text-center">Jul</th>
@@ -53,21 +58,25 @@
             <th class="text-center">May</th>
         </tr>
         </thead>
-        <tr ng-repeat="budget in budgets">
+        <tr ng-repeat="a in range(0,budgets.length - 1)">
             <td>
-                <span contenteditable="false">{{budget.budgetName}}</span>
+                <input class="name" type="text" ng-model="budgets[a].budgetName">
             </td>
+            <td style="margin: 0px;" class="text-center"><i ng-click="deleteBudget(budgets[a].id)" class="fa fa-trash"></i></td>
             <td ng-repeat="i in range(0,11)">
                 <div style="align-content: center" class="text-center">
-                    <span contenteditable="true">{{budget.months[i]}}</span>
-                    <i class="fa fa-check-circle" style="color: green" ng-show="!budget.paymentCompleted[i]"
-                       ng-click="markCompleted(budget.budgetName, i)"></i>
-                    <i class="fa fa-times-circle" style="color: red" ng-show="budget.paymentCompleted[i]"
-                       ng-click="markNotCompleted(budget.budgetName, i)"></i>
+                    <input type="text" ng-model="budgets[a].months[i]">
+                    <i class="fa fa-check-circle" style="color: green" ng-show="!budgets[a].paymentCompleted[i]"
+                       ng-click="markCompleted(budgets[a].budgetName, i)"></i>
+                    <i class="fa fa-times-circle" style="color: red" ng-show="budgets[a].paymentCompleted[i]"
+                       ng-click="markNotCompleted(budgets[a].budgetName, i)"></i>
                 </div>
             </td>
         </tr>
     </table>
+    <button class="btn btn-primary" type="button" ng-click="saveBudgets()"
+            style="background-color: rgb(0,162,45);height: 60px;width: 90px;font-size: 12px;">Save Changes
+    </button>
 </div>
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>

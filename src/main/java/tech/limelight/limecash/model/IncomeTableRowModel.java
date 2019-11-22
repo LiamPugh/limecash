@@ -5,15 +5,17 @@ public class IncomeTableRowModel {
     private String budgetName;
     private Double[] months;
     private Boolean[] paymentCompleted;
+    private Long id;
 
 
-    public IncomeTableRowModel(String budgetName, Double[] months, Boolean[] paymentCompleted) {
+    public IncomeTableRowModel(String budgetName, Double[] months, Boolean[] paymentCompleted, Long id) {
         this.budgetName = budgetName;
         this.months = months;
         this.paymentCompleted = paymentCompleted;
+        this.id = id;
     }
 
-    public IncomeTableRowModel(String budgetName, Double[] months, Double[] paymentCompleted) {
+    public IncomeTableRowModel(String budgetName, Double[] months, Double[] paymentCompleted, Long id) {
         this.budgetName = budgetName;
         this.months = months;
         Boolean[] completed = new Boolean[paymentCompleted.length];
@@ -21,6 +23,7 @@ public class IncomeTableRowModel {
             completed[i] = months[i].equals(paymentCompleted[i]);
         }
         this.paymentCompleted = completed;
+        this.id = id;
     }
 
 
@@ -46,5 +49,13 @@ public class IncomeTableRowModel {
 
     public void setPaymentCompleted(Boolean[] paymentCompleted) {
         this.paymentCompleted = paymentCompleted;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
