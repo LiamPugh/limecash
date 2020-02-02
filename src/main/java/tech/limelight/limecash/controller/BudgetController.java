@@ -151,6 +151,7 @@ public class BudgetController {
         budgetRepository.saveAll(budgetList);
     }
 
+
     @GetMapping("/getMonthsBudgets/{month}/{yearString}")
     public MonthBudget getMonthsBudgets(@PathVariable String month, @PathVariable String yearString) {
         Long year = Long.parseLong(yearString);
@@ -220,4 +221,5 @@ public class BudgetController {
         Budget budget1 = budgetRepository.save(budget);
         budgetRepository.flush();
     }
+
 }

@@ -1,6 +1,7 @@
 package tech.limelight.limecash.controller;
 
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import tech.limelight.limecash.model.*;
 import tech.limelight.limecash.repository.TransactionRepository;
@@ -64,14 +65,10 @@ public class TransactionController {
         if(transaction.isPresent() && transaction.get().getOwner().equals(SecurityContextHolder.getContext().getAuthentication().getName())) transactionRepository.deleteById(id);
     }
 
-    @PostMapping("/addTransaction")
-    /**
-     * TODO: Add checks for transactions here
-     */
-    public void addTransaction(@RequestBody UITransaction transaction){
-        Transaction trans = new Transaction(transaction);
+
+    private void addTransaction(Transaction trans){
         transactionRepository.save(trans);
-        if(transaction.getIncoming()){
+        if(trans.getIncoming()){
             bucketController.takeFromBucket(trans.getBucketImpacted(), -trans.getValue());
             accountController.takeFromAccount(trans.getAccountID(), -trans.getValue());
         }else {
@@ -79,6 +76,16 @@ public class TransactionController {
             accountController.takeFromAccount(trans.getAccountID(), trans.getValue());
         }
         budgetController.addTransToBudget(trans);
+    }
+
+
+    @PostMapping("/addTransaction")
+    /**
+     * TODO: Add checks for transactions here
+     */
+    public void addTransaction(@RequestBody UITransaction transaction) {
+        Transaction trans = new Transaction(transaction);
+        addTransaction(trans);
     }
 
     @PostMapping("/addTransfer")
@@ -169,5 +176,25 @@ public class TransactionController {
         return getVals("totalCosts");
     }
 
+    @PostMapping("/addMonthCloseTrans/{month}/{year}/{area}/{accountID}/{bucketID}")
+    public void addMonthCloseTransaction(@RequestBody Double value, @PathVariable String month,
+                                         @PathVariable String year, @PathVariable String area,
+                                         @PathVariable String accountID, @PathVariable String bucketID){
+        Transaction transaction = new Transaction();
+        LocalDate localDate = LocalDate.now();
+        localDate = localDate.withMonth(Integer.parseInt(month));
+        localDate = localDate.withYear(Integer.parseInt(year));
+        transaction.setAreaImpacted(area);
+        transaction.setDate(Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        transaction.setAccountID(Long.parseLong(accountID));
+        transaction.setBucketImpacted(Long.parseLong(bucketID));
+        transaction.setIncoming(false);
+        transaction.setComplete(true);
+        transaction.setName("Month Close Balancer");
+        transaction.setOwner(SecurityContextHolder.getContext().getAuthentication().getName());
+        transaction.setQuantity(1);
+        transaction.setValue(value);
+        addTransaction(transaction);
+    }
 
 }

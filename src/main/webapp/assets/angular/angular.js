@@ -8,8 +8,8 @@ app.service('yearSharedData', function () {
     this.getYear = function(){
         var x = document.cookie.split(";");
         for(a = 0; a < x.length; a++){
-            if(x[a].substring(0,6) === " year="){
-                return x[a].substring(6);
+            if(x[a].substring(0,5) === "year="){
+                return x[a].substring(5);
             }
         }
     };
@@ -17,7 +17,7 @@ app.service('yearSharedData', function () {
         var pass = false;
         var x = document.cookie.split(";");
         for(a = 0; a < x.length; a++){
-            if(x[a].substring(0,6) === " year="){
+            if(x[a].substring(0,5) === "year="){
                 pass = true;
             }
         }
@@ -119,16 +119,19 @@ app.controller('indexTable', function($scope, $http, yearSharedData) {
 
     yearSharedData.initYear();
     $scope.year = yearSharedData.getYear();
+    console.log($scope.year);
 });
 app.controller('monthController', function($scope, $http, yearSharedData) {
 
     function get(name){
         if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
-            return decodeURIComponent(name[1]);
+            return decodeURIComponent(name[ 1]);
     }
 
     $scope.month = get('month');
     $scope.year = yearSharedData.getYear();
+    console.log($scope.year);
+
 
     $http.get("/getMonthsBudgets/" + $scope.month + "/" + $scope.year)
         .then(function (response) {

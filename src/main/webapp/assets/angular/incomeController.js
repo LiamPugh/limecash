@@ -8,8 +8,8 @@ app.service('yearSharedData', function () {
     this.getYear = function(){
         var x = document.cookie.split(";");
         for(a = 0; a < x.length; a++){
-            if(x[a].substring(0,6) === " year="){
-                return x[a].substring(6);
+            if(x[a].substring(0,5) === "year="){
+                return x[a].substring(5);
             }
         }
     };
@@ -17,7 +17,7 @@ app.service('yearSharedData', function () {
         var pass = false;
         var x = document.cookie.split(";");
         for(a = 0; a < x.length; a++){
-            if(x[a].substring(0,6) === " year="){
+            if(x[a].substring(0,5) === "year="){
                 pass = true;
             }
         }
@@ -30,11 +30,11 @@ app.service('yearSharedData', function () {
 app.controller('incomeController', function ($scope, $http, yearSharedData) {
 
     $scope.markCompleted = function (incomeName, monthNumber) {
-        $http.get("/submitIncomeCompleted/" + incomeName + "/" + monthNumber + "/2019").then($scope.getIncomes);
+        $http.get("/submitIncomeCompleted/" + incomeName + "/" + monthNumber + "/2020").then($scope.getIncomes);
     };
 
     $scope.markNotCompleted = function (incomeName, monthNumber) {
-        $http.get("/submitIncomeNotCompleted/" + incomeName + "/" + monthNumber + "/2019").then($scope.getIncomes);
+        $http.get("/submitIncomeNotCompleted/" + incomeName + "/" + monthNumber + "/2020").then($scope.getIncomes);
     };
 
     $scope.deleteBudget = function(id){

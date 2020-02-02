@@ -1,11 +1,13 @@
 package tech.limelight.limecash.controller;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import tech.limelight.limecash.model.Account;
 import tech.limelight.limecash.model.Transaction;
 import tech.limelight.limecash.repository.AccountRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -74,4 +76,17 @@ public class AccountController {
         Long idTo = accounts.stream().filter(a -> a.getName().equals(to)).collect(Collectors.toList()).get(0).getId();
         transferBetweenAccounts(idFrom,idTo,value);
     }
+
+    @PostMapping("/monthClose/accDifferences")
+    public List<Double> getAccDifferences(@RequestBody List<Account> accounts){
+        ArrayList<Double> differences = new ArrayList<>();
+        for(Account account : accounts){
+            differences.add(account.getHolding() - accountRepository.getOne(account.getId()).getHolding());
+        }
+        return differences;
+    }
+
+
+
+
 }
