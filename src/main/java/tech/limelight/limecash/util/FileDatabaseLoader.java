@@ -38,7 +38,7 @@ public class FileDatabaseLoader {
             String user = "liampugh@limelight.tech";//scanner.nextLine();
             System.out.print("Enter File Encryption Password: ");
             FileDatabaseLoader.passwd = "SpringPassword01";//scanner.nextLine();
-            //encryptDecryptFiles(false, ENCRYPTED_FILENAMES,UNENCRYPTED_FILENAMES, passwd);
+            //encryptDecryptFiles(false, ENCRYPTED_FILENAMES, UNENCRYPTED_FILENAMES, passwd);
             log.info("Loading transactions: " + getTransactionsFromFile(transactionRepository));
             log.info("Loading accounts: " + getAccountsFromFile(accountRepository));
             log.info("Loading budgets: " + getBudgetsFromFile(budgetRepository));
